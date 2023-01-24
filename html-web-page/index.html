@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>HTML Web Page</title>
+  <style>
+    table,
+    th,
+    td {
+      border: 1px solid black;
+    }
+
+    td:not(:first-child) {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- your HTML code here 👇 -->
+  <h1>Jelly of the Month Club</h1>
+  <h2>Make all your friends jelly of your stock jelly!</h2>
+  <p>
+    Here at JOTMC Inc., we are constantly striving to supply our customers with the highest-quality and most unique jellies on a monthly basis. For the jelly lover in your life &#40;or yourself!&#41;, this is the gift that keeps on giving all year round. We offer three tiers of monthly jelly joy, and each one offers their own perks. Here is the breakdown of each, as well as your monthly price:
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th>Basic Plan</th>
+        <th>Deluxe Plan</th>
+        <th>Jelly Giant Plan</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Three new curated jellies per month</td>
+        <td>&check;</td>
+        <td>&check;</td>
+        <td>&check;</td>
+      </tr>
+      <tr>
+        <td>Monthly jellies come with commemorative mason jars</td>
+        <td></td>
+        <td>&check;</td>
+        <td>&check;</td>
+      </tr>
+      <tr>
+        <td>Free bonus jar of preserves bi-monthly</td>
+        <td></td>
+        <td>&check;</td>
+        <td>&check;</td>
+      </tr>
+      <tr>
+        <td>Free yearly tickets to Jelly Con</td>
+        <td></td>
+        <td></td>
+        <td>&check;</td>
+      </tr>
+      <tr>
+        <td>Monthly Pricing</td>
+        <td>$30</td>
+        <td>$50</td>
+        <td>$60</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>Like what you see? Become a part of the JOTMC family today!</p>
+  <form method="post">
+    <input type="text" size="17" name="name" value="Your Name">
+    <select name="plan">
+      <option value="select">Select Your Plan:</option>
+      <option value="basic">Basic Plan</option>
+      <option value="deluxe">Deluxe Plan</option>
+      <option value="jelly-giant-plan">Jelly Giant Plan</option>
+    </select>
+    <button type="submit">Submit</button>
+  </form>
+
+</body>
+</html>
