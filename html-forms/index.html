@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>HTML Forms</title>
+    <style>
+      div.margin-bottom {
+        margin-bottom: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Coding Form!</h1>
+    <form method="post">
+      <label for="email">Email</label>
+      <div><input name="email" type="text" /></div>
+      <label for="reason">Why is coding cool?</label>
+      <div class="margin-bottom">
+        <select name="reason">
+          <option value="option">Select an option</option>
+          <option value="interesting">Because it's interesting</option>
+          <option value="fun">Because it's fun</option>
+          <option value="powerful">Because it's powerful</option>
+        </select>
+      </div>
+      <div class="margin-bottom"><label for="language">Favorite Language (choose one)</label></div>
+      <div class="margin-bottom">
+        <input type="radio" name="language" value="html" /> HTML
+        <input type="radio" name="language" value="css" /> CSS
+        <input type="radio" name="language" value="javascript" /> JavaScript
+      </div>
+      <div class="margin-bottom">
+        <label for="sign-up">Would you like to sign up for more information?</label></div>
+      <div>
+        <input type="checkbox" name="sign-up" value="sign up" />
+        Sign me up!
+      </div>
+      <div><label for="comments">Comments</label></div>
+      <div>
+        <textarea name="comments" cols="30" rows="8"></textarea>
+      </div>
+      <input type="submit" value="Submit" />
+    </form>
+  </body>
+</html>
