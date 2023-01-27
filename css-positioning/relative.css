@@ -8,6 +8,7 @@
   width: 150px;
 
   /* your code here */
+  position: relative;
 }
 
 #bulbasaur {
@@ -16,24 +17,20 @@
 
 #charmander {
   /* your code here */
-  position: relative;
   top: 40px;
 }
 
 #squirtle {
   /* your code here */
-  position: relative;
   top: 80px;
 }
 
 #pikachu {
   /* your code here */
-  position: relative;
   top: 160px;
 }
 
 #jigglypuff {
   /* your code here */
-  position: relative;
   top: 300px;
 }
