@@ -1,0 +1,28 @@
+.container {
+  font-family: Barlow, sans-serif;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  flex-wrap: wrap;
+  width: 100vw;
+  box-sizing: border-box;
+  margin: 0 2rem;
+  padding: 0;
+}
+
+img.screen {
+  width: 100%;
+}
+
+img.logo {
+  width: 33%;
+}
+
+.col-fourth {
+  flex-basis: 20%;
+  padding: 0 20px;
+}
+
+h1 {
+  width: 100vw;
+}
