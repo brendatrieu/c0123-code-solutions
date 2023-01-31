@@ -1,0 +1,33 @@
+body {
+  font-family: Barlow, sans-serif;
+  background-color: rgb(247 248 250);
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  width: 100vw;
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.columns {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 20px;
+}
+
+img.screen {
+  width: 100%;
+}
+
+img.logo {
+  width: 33%;
+}
+
+.col-fourth {
+  flex-basis: 20%;
+  padding: 0 20px;
+}
