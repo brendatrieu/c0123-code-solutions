@@ -1,13 +1,22 @@
-.container {
+body {
   font-family: Barlow, sans-serif;
+  background-color: rgb(247 248 250);
+}
+
+.container {
   display: flex;
   justify-content: center;
+  flex-direction: column;
   text-align: center;
-  flex-wrap: wrap;
   width: 100vw;
   box-sizing: border-box;
-  margin: 0 2rem;
   padding: 0;
+}
+
+.columns {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 20px;
 }
 
 img.screen {
@@ -21,8 +30,4 @@ img.logo {
 .col-fourth {
   flex-basis: 20%;
   padding: 0 20px;
-}
-
-h1 {
-  width: 100vw;
 }
