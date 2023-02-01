@@ -1,0 +1,50 @@
+.container {
+  font-family: "DM Sans", sans-serif;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  justify-content: center;
+  margin: 0 5rem;
+  width: auto;
+}
+
+header {
+  width: 100%;
+  text-align: center;
+}
+
+.products {
+  display: flex;
+}
+
+.col-fifth {
+  flex-basis: 20%;
+  display: flex;
+  flex-flow: column wrap;
+  padding: 0.65rem;
+  justify-content: flex-end;
+}
+
+.red-text {
+  background-color: #fff1e6;
+}
+
+.gray-text {
+  color: #d6d6d6;
+}
+
+img {
+  width: 100%;
+  height: 80%;
+  margin-bottom: 0.3rem;
+}
+
+.caption-row {
+  display: flex;
+}
+
+p {
+  padding: 0 0.1rem;
+  font-size: 0.8rem;
+  margin: 0.2rem 0;
+}
