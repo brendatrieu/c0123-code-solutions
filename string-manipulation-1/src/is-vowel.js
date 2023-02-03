@@ -17,13 +17,14 @@
  */
 
 function isVowel(char) {
-  var vowels = ['a', 'e', 'i', 'o', 'u'];
-  var vowelComparison = false;
-  for (var i = 0; i < vowels.length; i++) {
-    if (vowels[i] === char.toLowerCase()) {
-      vowelComparison = true;
-      break;
-    }
+  switch (char.toLowerCase()) {
+    case 'a':
+    case 'e':
+    case 'i':
+    case 'o':
+    case 'u':
+      return true;
+    default:
+      return false;
   }
-  return vowelComparison;
 }

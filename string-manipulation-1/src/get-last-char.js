@@ -3,7 +3,7 @@
 /**
  * PSEUDOCODE:
  * Define a function called 'getLastChar' that takes in one
- * parameter 'string' and returns the last character of the string
+ * parameter 'string' and returns the last index of the string
  **/
 
 /**
@@ -11,5 +11,5 @@
  */
 
 function getLastChar(string) {
-  return string.charAt(string.length - 1);
+  return string[(string.length - 1)];
 }

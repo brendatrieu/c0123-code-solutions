@@ -3,7 +3,7 @@
 /**
  * PSEUDOCODE:
  * Define a function called 'getFirstChar' that takes in one
- * parameter 'string' and returns the first character of the string
+ * parameter 'string' and returns the first index of the string
  **/
 
 /**
@@ -11,5 +11,5 @@
  */
 
 function getFirstChar(string) {
-  return string.charAt(0);
+  return string[0];
 }
