@@ -18,11 +18,8 @@
 
 function compact(array) {
   var truthyArr = [];
-  var falseyArr = [false, 0, -0, NaN, null, undefined, ''];
   for (var i = 0; i < array.length; i++) {
-    if (Number.isNaN(array[i])) {
-      continue;
-    } else if (falseyArr.indexOf(array[i]) === -1) {
+    if (array[i]) {
       truthyArr.push(array[i]);
     }
   }
