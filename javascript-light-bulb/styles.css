@@ -1,0 +1,36 @@
+body {
+  margin: 0;
+}
+
+div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+button {
+  border-radius: 100%;
+  width: 20rem;
+  height: 20rem;
+  padding: 0;
+  border: none;
+}
+
+.off-switch {
+  background-color: #232425;
+  box-shadow: 0 -1rem #0c0c0c;
+}
+
+.dark {
+  background-color: #111;
+}
+
+.light {
+  background-color: #fef9f1;
+}
+
+.on-switch {
+  background-color: #faeb84;
+  box-shadow: 0 0 2rem 1rem #fef3c3;
+}
