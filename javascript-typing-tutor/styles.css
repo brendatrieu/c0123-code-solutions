@@ -1,0 +1,57 @@
+body {
+  margin: 0;
+  font-family: monospace;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+}
+
+span {
+  white-space: pre;
+  font-size: 2.75rem;
+}
+
+.correct {
+  color: #17ce1a;
+}
+
+.current {
+  border-bottom: 0.2rem solid black;
+}
+
+.incorrect {
+  color: #f80705;
+  border-bottom: 0.2rem solid #f80705;
+}
+
+.play-query {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: 1.5rem;
+}
+
+button {
+  background-color: #17ce1a;
+  margin: 0.5rem auto;
+  border-radius: 0.25rem;
+  border: none;
+  padding: 0.75rem;
+  font-family: inherit;
+  font-size: 1.5rem;
+  color: white;
+}
+
+.complete-msg {
+  margin: 1rem;
+}
+
+.in-progress {
+  display: none;
+}
