@@ -8,7 +8,6 @@ if (previousTodosJSON !== null) {
 }
 
 window.addEventListener('beforeunload', event => {
-  event.preventDefault();
   var todosJSON = JSON.stringify(todos);
   localStorage.setItem('javascript-local-storage', todosJSON);
 });
