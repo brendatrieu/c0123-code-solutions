@@ -3,16 +3,9 @@
 /**
  * PSEUDOCODE:
  * Define a function 'difference' with two parameters: 'first', 'second'.
- * Declare a variable 'diffArr' and assign an empty array.
- * Initiate a for loop to iterate through each index of 'first'.
- *  At each index:
- *    If the index of the value within second is -1:
- *      Push the value to 'diffArr'.
- * Initiate a for loop to iterate through each index of 'second'.
- *  At each index:
- *    If the index of the value within first is -1:
- *      Push the value to 'diffArr'.
- *  Return 'diffArr'.
+ * Declare a variable 'firstArr' and assign 'first' array filtered by items with an index of -1 in 'second'.
+ * Declare a second variable 'secArr' and assign 'second' array filtered by items with an index of -1 in 'first'.
+ * Return 'firstArr' concatenated with 'secArr'.
  */
 
 /**
@@ -20,16 +13,7 @@
  */
 
 var difference = (first, second) => {
-  var diffArr = [];
-  for (var i = 0; i < first.length; i++) {
-    if (second.indexOf(first[i]) === -1) {
-      diffArr.push(first[i]);
-    }
-  }
-  for (var j = 0; j < second.length; j++) {
-    if (first.indexOf(second[j]) === -1) {
-      diffArr.push(second[j]);
-    }
-  }
-  return diffArr;
+  var firstArr = first.filter(index => second.indexOf(index) === -1);
+  var secArr = second.filter(index => first.indexOf(index) === -1);
+  return firstArr.concat(secArr);
 };
