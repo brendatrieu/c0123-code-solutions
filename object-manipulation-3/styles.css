@@ -43,7 +43,7 @@ img {
 #playing-field {
   display: flex;
   align-items: center;
-  margin: 3rem auto;
+  margin: 2.5vh auto;
 }
 
 .player-img {
@@ -56,9 +56,10 @@ img {
   justify-content: space-evenly;
 }
 
-.card {
-  width: 5rem;
-  height: 7.75rem;
+.card,
+.card-value {
+  width: 4.5rem;
+  height: 6rem;
   margin: 0.5rem auto;
 }
 
@@ -81,4 +82,16 @@ img {
   border-radius: 0.3rem;
   opacity: 0.9;
   cursor: pointer;
+}
+
+.card-value {
+  color: #c0a66b;
+  border: 1px solid #c0a66b;
+  border-radius: 0.3rem;
+  background-color: rgb(255 255 255 / 90%);
+  text-align: center;
+}
+
+h3 {
+  margin: 0.8rem;
 }

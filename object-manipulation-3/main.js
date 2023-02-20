@@ -87,8 +87,8 @@ gameOn(cardDeck, hpPlayers, 3);
 // var $harry = document.querySelector('#Harry');
 // var $hermione = document.querySelector('#Hermione');
 // var $ron = document.querySelector('#Ron');
-var $gameMsg = document.querySelector('#gameMsg');
-var $playButton = document.querySelector('.playButton');
+var $gameMsg = document.querySelector('#game-msg');
+var $playButton = document.querySelector('.play-button');
 
 // Define a function to render cards
 // var renderCards = () => {
