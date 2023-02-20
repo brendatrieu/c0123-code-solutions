@@ -1,0 +1,84 @@
+body {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.hidden {
+  display: none !important;
+
+  /* transform: ; */
+}
+
+.container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  padding: 10vh auto;
+  background-size: cover;
+  background-image: url("https://images.squarespace-cdn.com/content/v1/59d38e928a02c74a3c81a708/1509553549067-PJJNT851XXZENW7IT4IZ/background.png?format=2500w");
+}
+
+.col-third {
+  width: calc(100%/3);
+  display: flex;
+
+  /* justify-content: center; */
+  flex-direction: column;
+  align-items: center;
+}
+
+.middle {
+  justify-content: space-between;
+}
+
+img {
+  object-fit: fill;
+  margin: 0;
+  border-radius: 0.5rem;
+  height: 17vh;
+}
+
+#playing-field {
+  display: flex;
+  align-items: center;
+  margin: 3rem auto;
+}
+
+.player-img {
+  display: flex;
+  flex-direction: column;
+}
+
+.hand {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.card {
+  width: 5rem;
+  height: 7.75rem;
+  margin: 0.5rem auto;
+}
+
+#game-msg {
+  background-image: url("https://cdn.wallpaperdirect.com/shared-assets/images/products/187987full.jpg");
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.play-button-img {
+  width: 19rem;
+  height: 7rem;
+  object-fit: cover;
+}
+
+.play-button {
+  border: unset;
+  border-radius: 0.3rem;
+  opacity: 0.9;
+  cursor: pointer;
+}
