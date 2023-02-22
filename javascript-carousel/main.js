@@ -73,6 +73,8 @@ var switchPic = event => {
     changeArr();
     dotSwitch();
   }
+
+  intervalID = setInterval(intervalPic, 3000);
 };
 
 var intervalID = setInterval(intervalPic, 3000);
