@@ -89,15 +89,35 @@ gameOn(cardDeck, hpPlayers, 3);
 // var $ron = document.querySelector('#Ron');
 var $gameMsg = document.querySelector('#game-msg');
 var $playButton = document.querySelector('.play-button');
+var $playingField = document.querySelector('#playing-field');
+var $hands = document.querySelectorAll('.hand');
 
-// Define a function to render cards
-// var renderCards = () => {
-//   var $newCard = document.createElement('img');
-//   $newCard.setAttribute('src', 'https://i.pinimg.com/474x/c5/1d/20/c51d206805338e816758e86f86e2311c--custom-playing-cards-collectible-cards.jpg');
-//   $newCard.className = 'card';
+// Define a functions to render cards
+var renderCardBack = () => {
+  var $newCardDiv = document.createElement('div');
+  var $newCard = document.createElement('img');
+  $newCard.setAttribute('src', 'https://i.pinimg.com/474x/c5/1d/20/c51d206805338e816758e86f86e2311c--custom-playing-cards-collectible-cards.jpg');
+  $newCardDiv.className = 'card-back';
+  $newCardDiv.appendChild($newCard);
+  for (var hand = 0; hand < $hands.length; hand++) {
+    $hands[hand].appendChild($newCardDiv);
+  }
+};
+
+// var renderCardValue = () => {
+//   var $newCardDiv = document.createElement('div');
+//   var $rank = document.createElement('h3');
+//   var $suite = document.createElement('h2');
+//   $newCardDiv.className = 'card-value';
 // };
 
 // Add event listeners
 $playButton.addEventListener('click', () => {
   $gameMsg.className = 'hidden';
+});
+
+$playingField.addEventListener('click', event => {
+  if (event.target.tagName === 'IMG') {
+    renderCardBack();
+  }
 });

@@ -37,7 +37,7 @@ img {
   object-fit: fill;
   margin: 0;
   border-radius: 0.5rem;
-  height: 17vh;
+  width: 100%;
 }
 
 #playing-field {
@@ -49,6 +49,7 @@ img {
 .player-img {
   display: flex;
   flex-direction: column;
+  margin: auto 15%;
 }
 
 .hand {
@@ -56,11 +57,11 @@ img {
   justify-content: space-evenly;
 }
 
-.card,
+.card-back,
 .card-value {
   width: 4.5rem;
-  height: 6rem;
-  margin: 0.5rem auto;
+  height: 7rem;
+  margin: 0.6rem;
 }
 
 #game-msg {
@@ -93,5 +94,5 @@ img {
 }
 
 h3 {
-  margin: 0.8rem;
+  text-align: center;
 }
