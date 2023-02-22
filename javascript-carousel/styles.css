@@ -1,0 +1,32 @@
+body {
+  margin: 0;
+}
+
+.carousel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+i {
+  cursor: pointer;
+}
+
+.fa-circle {
+  margin: 0.25rem;
+  transform: scale(1.1);
+}
+
+.fa-chevron-left,
+.fa-chevron-right {
+  margin: auto 10rem;
+  transform: scale(2.5);
+}
+
+#img-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
