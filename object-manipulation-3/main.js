@@ -60,21 +60,21 @@ var gameOn = (deck, players, numCards) => {
     return b.totalPts - a.totalPts;
   });
 
-  var tiedPlayers = players.filter(player => player.totalPts === players[0].totalPts);
+  hpPlayers.tiedPlayers = players.filter(player => player.totalPts === players[0].totalPts);
 
-  while (tiedPlayers.length > 1) {
+  while (hpPlayers.tiedPlayers.length > 1) {
     var k = numCards;
-    for (var tp = 0; tp < tiedPlayers.length; tp++) {
-      var nextPlayer = tiedPlayers[tp];
+    for (var tp = 0; tp < hpPlayers.tiedPlayers.length; tp++) {
+      var nextPlayer = hpPlayers.tiedPlayers[tp];
       var newCard = gameDeck.splice(0, 1);
       nextPlayer.hand.push(...newCard);
       nextPlayer.totalPts += nextPlayer.hand[k].value;
     }
     k++;
-    tiedPlayers.sort((a, b) => {
+    hpPlayers.tiedPlayers.sort((a, b) => {
       return b.totalPts - a.totalPts;
     });
-    tiedPlayers = tiedPlayers.filter(player => player.totalPts === players[0].totalPts);
+    hpPlayers.tiedPlayers = hpPlayers.tiedPlayers.filter(player => player.totalPts === players[0].totalPts);
   }
 
   console.log('Scores:', players);
@@ -128,7 +128,6 @@ var revealCards = async (numCards) => {
       $newCardDiv.appendChild($rank);
       $newCardDiv.appendChild($suite);
       $hands[card].replaceChild($newCardDiv, $hands[card].childNodes[i+1]);
-      console.log('i',i);
     }
   }
 };
