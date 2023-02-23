@@ -122,12 +122,13 @@ var revealCards = async (numCards) => {
       var $suite = document.createElement('h2');
       $newCardDiv.className = 'card-value';
       var player = $hands[card].getAttribute('id');
-      var currCard = hpPlayers.filter(char => char.name === player )[0].hand[i];
-      $rank.textContent = currCard.rank;
-      $suite.textContent = currCard.suite;
+      var currCard = hpPlayers.filter(char => char.name === player)[0].hand[i];
+      $rank.innerHTML = currCard.rank;
+      $suite.innerHTML = currCard.suite;
       $newCardDiv.appendChild($rank);
       $newCardDiv.appendChild($suite);
-      $hands[i].replaceWith($newCardDiv);
+      $hands[card].replaceChild($newCardDiv, $hands[card].childNodes[i+1]);
+      console.log('i',i);
     }
   }
 };
