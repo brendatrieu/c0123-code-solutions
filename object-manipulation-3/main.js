@@ -1,28 +1,49 @@
 console.log('Lodash is loaded:', typeof _ !== 'undefined');
 
+
+// Query for elements
+var $Hagrid = document.querySelector('#Hagrid');
+var $Harry = document.querySelector('#Harry');
+var $Hermione = document.querySelector('#Hermione');
+var $Ron = document.querySelector('#Ron');
+var $gameMsg = document.querySelector('#game-msg');
+var $playButton = document.querySelector('.play-button');
+var $gameView = document.querySelector('#game-view');
+var $endButton = document.querySelector('.end-button');
+var $gameOver = document.querySelector('#game-over');
+var $playingField = document.querySelector('#playing-field');
+var $hands = document.querySelectorAll('.hand');
+var $winner = document.querySelector('#winner');
+
 var hpPlayers = [
   {
     name: 'Harry',
     hand: [],
+    tiedHand: [],
     totalPts: null
   },
   {
     name: 'Hermione',
     hand: [],
+    tiedHand: [],
     totalPts: null
   },
   {
     name: 'Ron',
     hand: [],
+    tiedHand: [],
     totalPts: null
   },
   {
     name: 'Hagrid',
     hand: [],
+    tiedHand: [],
     totalPts: null
   }
 ];
 
+var tiedPlayers = [];
+var gameDeck = [];
 var cardDeck = [];
 
 var createDeck = () => {
@@ -49,49 +70,47 @@ var createDeck = () => {
 
 createDeck();
 
-var gameOn = (deck, players, numCards) => {
-  var gameDeck = _.shuffle(deck);
+// Define a function to render cards and reveal with ties
+var tiebreaker = async () => {
+  while (tiedPlayers.length > 1) {
+    for (var tp = 0; tp < tiedPlayers.length; tp++) {
+      var nextPlayer = tiedPlayers[tp];
+      var newCard = gameDeck.splice(0, 1);
+      nextPlayer.tiedHand.push(...newCard);
+      hpPlayers.filter(player => player.name === tiedPlayers[tp].name)[0].totalPts += nextPlayer.tiedHand[0].value;
+    }
+    await dealCards(1, tiedPlayers);
+    var tiedPlayersDiv = [];
+    for (var m = 0; m < tiedPlayers.length; m++) {
+      tiedPlayersDiv.push(findPlayerDiv(tiedPlayers[m].name));
+    }
+    await revealCards(1, tiedPlayersDiv, false);
+    tiedPlayers.forEach(player => player.tiedHand = []);
+    tiedPlayers.sort((a, b) => {
+      return b.totalPts - a.totalPts;
+    });
+    tiedPlayers = tiedPlayers.filter(player => player.totalPts === tiedPlayers[0].totalPts);
+  }
+  $winner.textContent = tiedPlayers[0].name;
+};
+
+var gameOn = async (deck, players, numCards) => {
+  gameDeck = _.shuffle(deck);
   for (var player = 0; player < players.length; player++) {
     var currPlayer = players[player];
     currPlayer.hand = gameDeck.splice(0, numCards);
     currPlayer.totalPts = _.sumBy(currPlayer.hand, function (o) { return o.value; });
   }
+
+  await dealCards(numCards, $hands);
+
   players.sort((a, b) => {
     return b.totalPts - a.totalPts;
   });
 
-  hpPlayers.tiedPlayers = players.filter(player => player.totalPts === players[0].totalPts);
+  tiedPlayers = players.filter(player => player.totalPts === players[0].totalPts);
 
-  while (hpPlayers.tiedPlayers.length > 1) {
-    var k = numCards;
-    for (var tp = 0; tp < hpPlayers.tiedPlayers.length; tp++) {
-      var nextPlayer = hpPlayers.tiedPlayers[tp];
-      var newCard = gameDeck.splice(0, 1);
-      nextPlayer.hand.push(...newCard);
-      nextPlayer.totalPts += nextPlayer.hand[k].value;
-    }
-    k++;
-    hpPlayers.tiedPlayers.sort((a, b) => {
-      return b.totalPts - a.totalPts;
-    });
-    hpPlayers.tiedPlayers = hpPlayers.tiedPlayers.filter(player => player.totalPts === players[0].totalPts);
-  }
-
-  console.log('Scores:', players);
-  console.log('Winner: ', players[0].name, 'Total Pts: ', players[0].totalPts);
 };
-
-gameOn(cardDeck, hpPlayers, 3);
-
-// Query for elements
-var $hagrid = document.querySelector('#Hagrid');
-// var $harry = document.querySelector('#Harry');
-// var $hermione = document.querySelector('#Hermione');
-// var $ron = document.querySelector('#Ron');
-var $gameMsg = document.querySelector('#game-msg');
-var $playButton = document.querySelector('.play-button');
-var $playingField = document.querySelector('#playing-field');
-var $hands = document.querySelectorAll('.hand');
 
 // Delay function
 function delay(time) {
@@ -99,36 +118,83 @@ function delay(time) {
 }
 
 // Define a functions to render cards
-var startGame = async (numCards) => {
+var dealCards = async (numCards, hands) => {
   for (var i = 0; i < numCards; i++) {
-    for (var hand = 0; hand < $hands.length; hand++) {
+    for (var hand = 0; hand < hands.length; hand++) {
       await delay(100);
       var $newCardDiv = document.createElement('div');
       var $newCard = document.createElement('img');
       $newCard.setAttribute('src', 'https://i.pinimg.com/474x/c5/1d/20/c51d206805338e816758e86f86e2311c--custom-playing-cards-collectible-cards.jpg');
       $newCardDiv.className = 'card-back';
       $newCardDiv.appendChild($newCard);
-      $hands[hand].appendChild($newCardDiv);
+      findPlayerDiv(hpPlayers[hand].name).appendChild($newCardDiv);
     }
   }
 };
 
-var revealCards = async (numCards) => {
+// Function to reveal card values
+var revealCards = async (numCards, hands, start) => {
   for (var i = 0; i < numCards; i++) {
-    for (var card = 0; card < $hands.length; card++) {
+    for (var card = 0; card < hands.length; card++) {
       await delay(500);
       var $newCardDiv = document.createElement('div');
       var $rank = document.createElement('h3');
       var $suite = document.createElement('h2');
       $newCardDiv.className = 'card-value';
-      var player = $hands[card].getAttribute('id');
-      var currCard = hpPlayers.filter(char => char.name === player)[0].hand[i];
+      var player = hands[card].getAttribute('id');
+      var currCard = start ? hpPlayers.filter(char => char.name === player)[0].hand[i] : hpPlayers.filter(char => char.name === player)[0].tiedHand[i];
       $rank.innerHTML = currCard.rank;
       $suite.innerHTML = currCard.suite;
       $newCardDiv.appendChild($rank);
       $newCardDiv.appendChild($suite);
-      $hands[card].replaceChild($newCardDiv, $hands[card].childNodes[i+1]);
+      var cardIndex = start ? i + 1 : hands[card].childNodes.length -1;
+      hands[card].replaceChild($newCardDiv, hands[card].childNodes[cardIndex]);
     }
+  }
+  revealScores();
+};
+
+// Function to find target div
+var findPlayerDiv = (name) => {
+  switch (name) {
+    case 'Hagrid':
+      return $Hagrid;
+    case 'Harry':
+      return $Harry;
+    case 'Hermione':
+      return $Hermione;
+    case 'Ron':
+      return $Ron;
+  }
+}
+
+// Define a function to reveal scores
+var revealScores = () => {
+  for (var i = 0; i< hpPlayers.length; i++) {
+    var name = hpPlayers[i].name;
+    var points = hpPlayers[i].totalPts;
+    document.getElementById(`${name}-score`).textContent = points;
+  }
+}
+
+// Reset game
+var resetGame = () => {
+  tiedPlayers = [];
+  gameDeck = [];
+  cardDeck = [];
+  createDeck();
+  hpPlayers.forEach(player => player.hand = []);
+  hpPlayers.forEach(player => player.totalPts = null);
+  hpPlayers.forEach(player => player.tiedHand = []);
+  $gameView.className = "hidden";
+  $gameOver.className = "hidden";
+  $gameMsg.className = "";
+  // var $hands = document.querySelectorAll('.hand');
+  for(var i = 0; i < $hands.length; i++) {
+    while($hands[i].firstElementChild) {
+      $hands[i].removeChild($hands[i].firstElementChild)
+    }
+    document.getElementById(`${$hands[i].getAttribute('id')}-score`).textContent = 0;
   }
 };
 
@@ -136,14 +202,12 @@ var revealCards = async (numCards) => {
 $playButton.addEventListener('click', async () => {
   var numCards = 2;
   $gameMsg.className = 'hidden';
-  gameOn(cardDeck, hpPlayers, 2);
-  await startGame(numCards);
-  revealCards(numCards);
+  $gameView.className = "";
+  await gameOn(cardDeck, hpPlayers, numCards);
+  await revealCards(numCards, $hands, true);
+  await tiebreaker();
+  await delay(2000);
+  $gameOver.className = "";
 });
 
-$playingField.addEventListener('click', event => {
-
-  if (event.target.tagName === 'IMG') {
-
-  }
-});
+$endButton.addEventListener('click', resetGame);
