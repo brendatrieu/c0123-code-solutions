@@ -1,0 +1,120 @@
+body {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.hidden {
+  display: none !important;
+}
+
+#game-view {
+  display: flex;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  padding: 10vh auto;
+  background-size: cover;
+  background-image: url("https://images.squarespace-cdn.com/content/v1/59d38e928a02c74a3c81a708/1509553549067-PJJNT851XXZENW7IT4IZ/background.png?format=2500w");
+}
+
+.col-third {
+  width: calc(100%/3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.middle {
+  justify-content: space-between;
+}
+
+img {
+  object-fit: fill;
+  margin: 0;
+  border-radius: 0.5rem;
+  width: 100%;
+}
+
+#playing-field {
+  display: flex;
+  align-items: center;
+  margin: 2.5vh auto;
+}
+
+.player-img {
+  display: flex;
+  flex-direction: column;
+  margin: auto 15%;
+}
+
+.hand {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  margin: auto 2%;
+}
+
+.card-back,
+.card-value {
+  width: 4.5rem;
+  height: 7rem;
+  margin: 0.6rem;
+}
+
+#game-msg {
+  background-image: url("https://cdn.wallpaperdirect.com/shared-assets/images/products/187987full.jpg");
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.play-button-img,
+#mischief-managed {
+  width: 19rem;
+  height: 7rem;
+  object-fit: cover;
+}
+
+.play-button,
+.end-button {
+  border: unset;
+  border-radius: 0.3rem;
+  opacity: 0.9;
+  cursor: pointer;
+}
+
+.card-value {
+  color: #c0a66b;
+  border: 1px solid #c0a66b;
+  border-radius: 0.3rem;
+  background-color: rgb(255 255 255 / 90%);
+  text-align: center;
+}
+
+h3 {
+  text-align: center;
+  color: #c0a66b;
+}
+
+#game-over {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  inset: 0;
+  background-color: rgb(0 0 0 / 50%);
+}
+
+#reset-modal {
+  width: 25vw;
+  height: 25vh;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: rgb(255 255 255 / 90%);
+  border-radius: 0.3rem;
+}

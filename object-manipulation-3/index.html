@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Working With Collections</title>
+  <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+  <div class="" id="game-msg">
+    <button class="play-button" type="button"><img class="play-button-img" src="solemnly-transparent.png"></button>
+  </div>
+  <div class="hidden" id="game-view">
+    <div class="left col-third">
+      <h3>Score: <span id="Harry-score">0</span></h3>
+      <div class="player-img">
+        <img src="https://www.looper.com/img/gallery/mistakes-that-are-hard-to-ignore-in-harry-potter-movies/intro-1572462010.jpg">
+      </div>
+      <div class="hand" id="Harry">
+
+      </div>
+    </div> <!-- end of left column -->
+    <div class="middle col-third">
+      <h3>Score: <span id="Hagrid-score">0</span></h3>
+      <div class="player-img">
+        <img src="https://pbs.twimg.com/media/FfDRyY3UYAIDU9b?format=jpg&name=900x900">
+      </div>
+      <div class="hand" id="Hagrid">
+
+      </div>
+      <div id="playing-field">
+        <div class="card-back">
+          <img
+            src="https://i.pinimg.com/474x/c5/1d/20/c51d206805338e816758e86f86e2311c--custom-playing-cards-collectible-cards.jpg">
+        </div>
+      </div>
+      <h3>Score: <span id="Hermione-score">0</span></h3>
+      <div class="player-img">
+        <img src="https://www.looper.com/img/gallery/what-hermione-from-harry-potter-really-should-have-looked-like/intro-1589225534.jpg">
+      </div>
+      <div class="hand" id="Hermione">
+
+      </div>
+    </div> <!-- end of middle column-->
+    <div class="right col-third">
+      <h3>Score: <span id="Ron-score">0</span></h3>
+      <div class="player-img">
+        <img src="https://img.buzzfeed.com/buzzfeed-static/static/2020-06/25/6/asset/3f8f74663a06/sub-buzz-4401-1593067018-1.png?downsize=700%3A%2A&output-quality=auto&output-format=auto">
+      </div>
+      <div class="hand" id="Ron">
+
+      </div>
+    </div> <!-- end of right column -->
+  </div>
+  <div class="hidden" id="game-over">
+    <div id="reset-modal">
+      <h3>Winner: <span id="winner"></span></h3>
+      <button class="end-button" type="button"><img id="mischief-managed" src="Mischief-Managed.png" alt="Mischief Managed"></button>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
