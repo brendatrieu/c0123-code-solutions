@@ -17,7 +17,7 @@ const jokester = {
       }, 2000);
     }, 2000);
   },
-  renderJokePhrase: phrase => {
+  renderJokePhrase: function (phrase) {
     const $phrase = document.createElement('h4');
     $phrase.textContent = phrase;
     $phrase.className = 'fade-in text-center mb-3 col-12';
