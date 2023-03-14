@@ -23,7 +23,7 @@ const jokester = {
     $phrase.className = 'fade-in text-center mb-3 col-12';
     return $phrase;
   },
-  appendJokePhrase: $phrase => {
+  appendJokePhrase: function ($phrase) {
     $jokeContainer.append($phrase);
   }
 };
