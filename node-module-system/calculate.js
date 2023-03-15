@@ -1,26 +1,34 @@
-import sum from './add.js';
-import difference from './subtract.js';
-import product from './multiply.js';
-import quotient from './divide.js';
+import add from './add.js';
+import subtract from './subtract.js';
+import multiply from './multiply.js';
+import divide from './divide.js';
 
 const firstArg = Number(process.argv[2]);
 const secondArg = Number(process.argv[4]);
+const operator = process.argv[3];
+let result = null;
 
-switch (process.argv[3]) {
+switch (operator) {
   case 'plus':
   case '+':
-    console.log('result:', sum(firstArg, secondArg));
+    result = add(firstArg, secondArg);
     break;
   case 'minus':
   case '-':
-    console.log('result:', difference(firstArg, secondArg));
+    result = subtract(firstArg, secondArg);
     break;
   case 'times':
   case '*':
-    console.log('result:', product(firstArg, secondArg));
+    result = multiply(firstArg, secondArg);
     break;
   case 'over':
   case '/':
-    console.log('result:', quotient(firstArg, secondArg));
+    result = divide(firstArg, secondArg);
     break;
+  default:
+    console.log('invalid operation');
+}
+
+if (result !== null) {
+  console.log('result:', result);
 }

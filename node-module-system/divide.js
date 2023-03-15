@@ -1,3 +1,3 @@
-const quotient = (a, b) => a / b;
-
-export default quotient;
+export default function divide(a, b) {
+  return a / b;
+}
