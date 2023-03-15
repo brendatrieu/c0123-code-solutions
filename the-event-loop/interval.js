@@ -13,6 +13,4 @@ function countDown() {
 }
 
 // Initiate blast off
-const countId = setInterval(() => {
-  countDown(currCount);
-}, 1000);
+const countId = setInterval(() => countDown(currCount), 1000);
