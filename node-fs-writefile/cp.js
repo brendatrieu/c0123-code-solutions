@@ -12,9 +12,5 @@ if (!newFile.endsWith('.txt')) {
 }
 
 readFile(origFile, 'utf8')
-  .then((value) => {
-    writeFile(newFile, value)
-      .then((value) => value)
-      .catch((writeErr) => console.error(writeErr));
-  })
+  .then((value) => writeFile(newFile, value))
   .catch((readErr) => console.error(readErr));

@@ -5,5 +5,4 @@ const inputtedNotes = `${notes.join('\n')}
 `;
 
 writeFile('note.txt', inputtedNotes, { flag: 'a' })
-  .then((note) => note)
   .catch((err) => console.error(err));
