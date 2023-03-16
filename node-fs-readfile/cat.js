@@ -1,15 +1,14 @@
 import { readFile } from 'node:fs/promises';
 
-function readAll() {
-  const [, , ...filePaths] = process.argv;
-  filePaths.forEach((path) => {
-    if (!path.endsWith('.txt')) {
-      console.error('invalid path:', path);
-    }
-    readFile(path, 'utf8')
-      .then((contents) => console.log(contents))
-      .catch((err) => console.error(err));
-  });
-}
+const [, , ...filePaths] = process.argv;
 
-readAll();
+const allPromises = filePaths.map((path) => {
+  if (!path.endsWith('.txt')) {
+    return Promise.resolve(`invalid path: ${path} \n`);
+  }
+  return readFile(path, 'utf8');
+});
+
+Promise.all(allPromises)
+  .then((files) => console.log(files.join('\n')))
+  .catch((err) => console.error(err));
