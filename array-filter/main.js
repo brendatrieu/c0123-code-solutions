@@ -14,13 +14,13 @@ const names = [
 
 // Set up an object to keep track of filtered arrays
 const allArrays = {
-  evenNumbers: function () { return numbers.filter((num) => num % 2 === 0); },
-  overFive: function () { return numbers.filter((num) => num > 5); },
-  startWithE: function () { return names.filter((name) => name[0].toLowerCase() === 'e'); },
-  haveD: function () { return names.filter((name) => name.toLowerCase().includes('d')); }
+  evenNumbers: numbers.filter((num) => num % 2 === 0),
+  overFive: numbers.filter((num) => num > 5),
+  startWithE: names.filter((name) => name[0].toLowerCase() === 'e'),
+  haveD: names.filter((name) => name.toLowerCase().includes('d'))
 };
 
 // Print all filtered arrays
 for (const arr in allArrays) {
-  console.log(arr, allArrays[arr]());
+  console.log(arr, allArrays[arr]);
 }
