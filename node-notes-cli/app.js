@@ -1,7 +1,7 @@
 import { writeFile } from 'node:fs/promises';
 import { readFileSync } from 'node:fs';
 
-// ------- Set up function and variables to handle user inputs -------
+// ------- Sets up a function and variables to handle user inputs -------
 const allInputs = process.argv;
 const action = process.argv[2];
 const arg3 = process.argv[3];
@@ -39,8 +39,8 @@ function handleError(err) {
   process.exit(1);
 }
 
-/** Review the ID of interest and see whether it numerical and an ID that exists within the working database, then exit the process */
-function evaluateId(id, notes) {
+/** Reviews the ID of interest and sees whether it is numerical and an ID that exists within the working database, then exits the process */
+function evaluateId(notes, id) {
   const validIds = Object.keys(notes);
 
   if (typeof Number(id) !== 'number' || !validIds.includes(id)) {
@@ -49,13 +49,13 @@ function evaluateId(id, notes) {
   }
 }
 
-/** Prints a message to notify the user that they inputted too many arguments, then exit the process */
+/** Prints a message to notify the user that they inputted too many arguments, then exits the process */
 function tooManyNotes() {
   console.error('Please note only one note at a time can be inputted. Try again and ensure your note is enclosed in quotation marks.');
   process.exit(1);
 }
 
-/** Read the data file and parse it into a usable form. If the user passes in a desired item, then return that part of the object only */
+/** Reads the data file and parses it into a usable form. If the user passes in a desired item, then returns that part of the object only */
 async function getJournal(item) {
   try {
     const journal = await readFileSync('data.json', 'utf8');
@@ -69,7 +69,7 @@ async function getJournal(item) {
   }
 }
 
-/** Take the input, stringify it and write it over the data file */
+/** Takes the input, stringifies it, and writes the output over the data file */
 async function writeJournal(input) {
   try {
     const newJournal = JSON.stringify(input);
