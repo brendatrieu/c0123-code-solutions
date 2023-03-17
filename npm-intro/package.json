@@ -1,0 +1,12 @@
+{
+  "name": "npm-intro",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "server.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jquery": "^3.6.4"
+  }
+}
