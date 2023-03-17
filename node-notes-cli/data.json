@@ -1,0 +1,1 @@
+{"nextId":21,"notes":{"12":"Prototypal inheritance is how JavaScript objects delegate behavior.","13":"In JavaScript, the value of `this` is determined when a function is called; not when it is defined.","14":"A closure is formed when a function retains access to variables in its lexical scope.","16":"The cow jumped over the moon"}}
