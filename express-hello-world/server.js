@@ -7,4 +7,4 @@ app.use((req, res) => {
   res.send('hello world');
 });
 
-app.listen(8080, () => console.log('the app is listening'));
+app.listen(8080, () => console.log('the app is listening on port 8080'));
