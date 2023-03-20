@@ -7,3 +7,4 @@ module.exports = {
   author: prompt('author', ''),
   license: prompt('license', 'ISC'),
 }
+//
