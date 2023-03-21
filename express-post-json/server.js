@@ -1,10 +1,17 @@
 import express from 'express';
 
 const app = express();
-// const nextId = 1;
+let nextId = 1;
 const grades = {};
-app.get('/api/grades', (req, res, next) => {
-  res.json(Object.values(grades));
-  return next();
+
+app.use(express.json());
+
+app.get('/api/grades', (req, res) => res.json(Object.values(grades)));
+
+app.post('/api/grades', (req, res) => {
+  grades[nextId] = { id: nextId, ...req.body };
+  res.status(201).send(grades[nextId]);
+  return nextId++;
 });
-app.listen(8080, (req, res) => console.log('Port 8080 is now live'));
+
+app.listen(8080, () => console.log('Port 8080 is now live'));
