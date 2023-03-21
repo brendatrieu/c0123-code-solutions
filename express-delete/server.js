@@ -22,13 +22,11 @@ const grades = {
   }
 };
 
-app.get('/api/grades', (req, res, next) => {
-  res.json(Object.values(grades));
-  return next();
-});
-app.listen(8080, () => console.log('Port 8080 is connected'));
-app.delete('/api/grades/:id', (req, res, next) => {
-  res.send(`Grade ID ${req.params.id} was deleted.`);
+app.get('/api/grades', (req, res) => res.json(Object.values(grades)));
+
+app.delete('/api/grades/:id', (req, res) => {
   delete grades[req.params.id];
-  return res.sendStatus(204);
+  return res.status(200).send(`Grade ID ${req.params.id} was deleted.`);
 });
+
+app.listen(8080, () => console.log('Port 8080 is connected'));
