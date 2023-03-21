@@ -21,6 +21,7 @@
     "stylelint-config-standard": "^27.0.0"
   },
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "nodemon": "^2.0.21"
   }
 }
