@@ -4,7 +4,7 @@ import { writeFile, readFile } from 'node:fs/promises';
 // --- Reusable functions ---
 function handleError(res, err) {
   console.error('/api/notes error', err);
-  res.status(500).send({ error: 'An unexpected error occurred.' });
+  res.status(500).json({ error: 'An unexpected error occurred.' });
 }
 
 function evaluateId(res, journal, id) {
@@ -56,7 +56,6 @@ async function loadNotes(res, id) {
 async function uploadNotes(res, input) {
   const newNotes = JSON.stringify(input);
   await writeFile('data.json', newNotes);
-  return true;
 }
 
 // --- Express and middleware functions ---
@@ -68,7 +67,7 @@ app.get('/api/notes', async (req, res) => {
   try {
     const journal = await loadNotes(res);
     evalParamsOnly(req, res);
-    res.status(200).send(journal.notes);
+    res.status(200).json(journal.notes);
   } catch (err) {
     handleError(res, err);
   }
@@ -79,7 +78,7 @@ app.get('/api/notes/:id', async (req, res) => {
     const { id } = req.params;
     const journal = await loadNotes(res, id);
     evalParamsOnly(req, res);
-    res.status(200).send(journal);
+    res.status(200).json(journal);
   } catch (err) {
     handleError(res, err);
   }
@@ -87,14 +86,15 @@ app.get('/api/notes/:id', async (req, res) => {
 
 app.post('/api/notes', async (req, res) => {
   try {
-    if (evalReqBody(req, res, 'post')) {
-      const journal = await loadNotes(res);
-      const { nextId } = journal;
-      journal.notes[nextId] = { id: nextId, content: req.body.content };
-      journal.nextId++;
-      await uploadNotes(res, journal);
-      res.status(201).send(journal.notes[nextId]);
+    if (!evalReqBody(req, res, 'post')) {
+      return;
     }
+    const journal = await loadNotes(res);
+    const { nextId } = journal;
+    journal.notes[nextId] = { id: nextId, content: req.body.content };
+    journal.nextId++;
+    await uploadNotes(res, journal);
+    res.status(201).json(journal.notes[nextId]);
   } catch (err) {
     handleError(res, err);
   }
@@ -102,15 +102,17 @@ app.post('/api/notes', async (req, res) => {
 
 app.delete('/api/notes/:id', async (req, res) => {
   try {
-    if (evalParamsOnly(req, res)) {
-      const { id } = req.params;
-      const journal = await loadNotes(res);
-      if (evaluateId(res, journal, id)) {
-        delete journal.notes[id];
-        await uploadNotes(res, journal);
-        res.sendStatus(204);
-      }
+    if (!evalParamsOnly(req, res)) {
+      return;
     }
+    const { id } = req.params;
+    const journal = await loadNotes(res);
+    if (!evaluateId(res, journal, id)) {
+      return;
+    }
+    delete journal.notes[id];
+    await uploadNotes(res, journal);
+    res.sendStatus(204);
   } catch (err) {
     handleError(res, err);
   }
@@ -120,13 +122,15 @@ app.put('/api/notes/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const journal = await loadNotes(res);
-    if (evaluateId(res, journal, id)) {
-      if (evalReqBody(req, res, 'put')) {
-        journal.notes[id].content = req.body.content;
-        await uploadNotes(res, journal);
-        res.status(200).send(journal.notes[id]);
-      }
+    if (!evaluateId(res, journal, id)) {
+      return;
     }
+    if (!evalReqBody(req, res, 'put')) {
+      return;
+    }
+    journal.notes[id].content = req.body.content;
+    await uploadNotes(res, journal);
+    res.status(200).json(journal.notes[id]);
   } catch (err) {
     handleError(res, err);
   }
