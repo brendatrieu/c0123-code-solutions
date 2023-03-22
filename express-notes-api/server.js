@@ -1,6 +1,5 @@
 import express from 'express';
-import { writeFile } from 'node:fs/promises';
-import { readFileSync } from 'node:fs';
+import { writeFile, readFile } from 'node:fs/promises';
 
 // --- Reusable functions ---
 function handleError(res, err) {
@@ -33,6 +32,13 @@ function evaluateReqBody(req, res, action) {
       }
       break;
     case 'put':
+      if (!userInputs.includes('content') || userInputs.length > 1) {
+        res.status(400).send(`Input: ${JSON.stringify(req.body)}
+  Be advised only notes assigned to "content" will be processed. Please try again.`);
+      } else {
+        return true;
+      }
+      break;
     case 'post':
       if (!userInputs.includes('content') || userInputs.length > 1) {
         res.status(400).send(`Input: ${JSON.stringify(req.body)}
@@ -40,6 +46,7 @@ function evaluateReqBody(req, res, action) {
       } else {
         return true;
       }
+      break;
   }
 }
 
@@ -47,7 +54,7 @@ function evaluateReqBody(req, res, action) {
  *  If there is an ID, return the entry for that given ID. Otherwise, return all entries. */
 async function loadNotes(res, id) {
   try {
-    const data = await readFileSync('data.json', 'utf8');
+    const data = await readFile('data.json', 'utf8');
     const dataJson = JSON.parse(data);
     if (id) {
       if (evaluateId(res, dataJson, id)) {
@@ -71,7 +78,7 @@ async function uploadNotes(res, input) {
   }
 }
 
-// --- HTTPie handlers and middleware functions ---
+// --- Express and middleware functions ---
 const app = express();
 
 app.use(express.json());
@@ -79,9 +86,11 @@ app.use(express.json());
 app.get('/api/notes/:id?', async (req, res) => {
   try {
     const { id } = req.params;
-    let journal = await loadNotes(res);
+    let journal = null;
     if (id) {
       journal = await loadNotes(res, id);
+    } else {
+      journal = await loadNotes(res);
     }
     if (journal) {
       const response = id ? journal : journal.notes;
