@@ -1,2 +1,2 @@
 SELECT * FROM customers
-WHERE "isActive" = 'false';
+WHERE "isActive" = false;
