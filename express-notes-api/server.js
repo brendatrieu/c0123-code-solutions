@@ -19,34 +19,23 @@ function evaluateId(res, journal, id) {
   }
 }
 
-function evaluateReqBody(req, res, action) {
-  let userInputs = Object.keys(req.body);
-  userInputs = userInputs.filter((key) => key !== 'id');
-  switch (action) {
-    case 'delete':
-      if (userInputs.length > 0) {
-        res.status(400).send(`Input: ${JSON.stringify(req.body)}
-  Be advised the above inputs were not be processed. Please try again.`);
-      } else {
-        return true;
-      }
-      break;
-    case 'put':
-      if (!userInputs.includes('content') || userInputs.length > 1) {
-        res.status(400).send(`Input: ${JSON.stringify(req.body)}
-  Be advised only notes assigned to "content" will be processed. Please try again.`);
-      } else {
-        return true;
-      }
-      break;
-    case 'post':
-      if (!userInputs.includes('content') || userInputs.length > 1) {
-        res.status(400).send(`Input: ${JSON.stringify(req.body)}
-  Be advised only notes assigned to "content" will be processed. Please try again.`);
-      } else {
-        return true;
-      }
-      break;
+function evalReqBody(req, res) {
+  const userInputs = Object.keys(req.body);
+  if (!userInputs.includes('content') || userInputs.length > 1) {
+    res.status(400).send(`Input: ${JSON.stringify(req.body)}
+Be advised only notes assigned to "content" will be processed. Please try again.`);
+  } else {
+    return true;
+  }
+}
+
+function evalParamsOnly(req, res) {
+  const userInputs = Object.keys(req.body);
+  if (userInputs.length > 0) {
+    res.status(400).send(`Input: ${JSON.stringify(req.body)}
+Be advised the above inputs were not be processed. Please try again.`);
+  } else {
+    return true;
   }
 }
 
@@ -66,7 +55,7 @@ async function loadNotes(res, id) {
 
 async function uploadNotes(res, input) {
   const newNotes = JSON.stringify(input);
-  await writeFile('derp/data.json', newNotes);
+  await writeFile('data.json', newNotes);
   return true;
 }
 
@@ -75,14 +64,22 @@ const app = express();
 
 app.use(express.json());
 
-app.get('/api/notes/:id?', async (req, res) => {
+app.get('/api/notes', async (req, res) => {
+  try {
+    const journal = await loadNotes(res);
+    evalParamsOnly(req, res);
+    res.status(200).send(journal.notes);
+  } catch (err) {
+    handleError(res, err);
+  }
+});
+
+app.get('/api/notes/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    let journal = null;
-    journal = await loadNotes(res, id);
-    // ----------------------------------------------------
-    const response = id ? journal : journal.notes;
-    res.status(200).send(response);
+    const journal = await loadNotes(res, id);
+    evalParamsOnly(req, res);
+    res.status(200).send(journal);
   } catch (err) {
     handleError(res, err);
   }
@@ -90,7 +87,7 @@ app.get('/api/notes/:id?', async (req, res) => {
 
 app.post('/api/notes', async (req, res) => {
   try {
-    if (evaluateReqBody(req, res, 'post')) {
+    if (evalReqBody(req, res, 'post')) {
       const journal = await loadNotes(res);
       const { nextId } = journal;
       journal.notes[nextId] = { id: nextId, content: req.body.content };
@@ -105,7 +102,7 @@ app.post('/api/notes', async (req, res) => {
 
 app.delete('/api/notes/:id', async (req, res) => {
   try {
-    if (evaluateReqBody(req, res, 'delete')) {
+    if (evalParamsOnly(req, res)) {
       const { id } = req.params;
       const journal = await loadNotes(res);
       if (evaluateId(res, journal, id)) {
@@ -124,7 +121,7 @@ app.put('/api/notes/:id', async (req, res) => {
     const { id } = req.params;
     const journal = await loadNotes(res);
     if (evaluateId(res, journal, id)) {
-      if (evaluateReqBody(req, res, 'put')) {
+      if (evalReqBody(req, res, 'put')) {
         journal.notes[id].content = req.body.content;
         await uploadNotes(res, journal);
         res.status(200).send(journal.notes[id]);
