@@ -53,29 +53,21 @@ function evaluateReqBody(req, res, action) {
 /** Takes an Express response and user-provided id as inputs.
  *  If there is an ID, return the entry for that given ID. Otherwise, return all entries. */
 async function loadNotes(res, id) {
-  try {
-    const data = await readFile('data.json', 'utf8');
-    const dataJson = JSON.parse(data);
-    if (id) {
-      if (evaluateId(res, dataJson, id)) {
-        return dataJson.notes[id];
-      }
-    } else {
-      return dataJson;
+  const data = await readFile('data.json', 'utf8');
+  const dataJson = JSON.parse(data);
+  if (id) {
+    if (evaluateId(res, dataJson, id)) {
+      return dataJson.notes[id];
     }
-  } catch (err) {
-    handleError(res, err);
+  } else {
+    return dataJson;
   }
 }
 
 async function uploadNotes(res, input) {
-  try {
-    const newNotes = JSON.stringify(input);
-    await writeFile('data.json', newNotes);
-    return true;
-  } catch (err) {
-    handleError(res, err);
-  }
+  const newNotes = JSON.stringify(input);
+  await writeFile('derp/data.json', newNotes);
+  return true;
 }
 
 // --- Express and middleware functions ---
@@ -87,15 +79,10 @@ app.get('/api/notes/:id?', async (req, res) => {
   try {
     const { id } = req.params;
     let journal = null;
-    if (id) {
-      journal = await loadNotes(res, id);
-    } else {
-      journal = await loadNotes(res);
-    }
-    if (journal) {
-      const response = id ? journal : journal.notes;
-      res.status(200).send(response);
-    }
+    journal = await loadNotes(res, id);
+    // ----------------------------------------------------
+    const response = id ? journal : journal.notes;
+    res.status(200).send(response);
   } catch (err) {
     handleError(res, err);
   }
@@ -108,10 +95,8 @@ app.post('/api/notes', async (req, res) => {
       const { nextId } = journal;
       journal.notes[nextId] = { id: nextId, content: req.body.content };
       journal.nextId++;
-      const response = await uploadNotes(res, journal);
-      if (response) {
-        res.status(201).send(journal.notes[nextId]);
-      }
+      await uploadNotes(res, journal);
+      res.status(201).send(journal.notes[nextId]);
     }
   } catch (err) {
     handleError(res, err);
@@ -125,10 +110,8 @@ app.delete('/api/notes/:id', async (req, res) => {
       const journal = await loadNotes(res);
       if (evaluateId(res, journal, id)) {
         delete journal.notes[id];
-        const response = await uploadNotes(res, journal);
-        if (response) {
-          res.sendStatus(204);
-        }
+        await uploadNotes(res, journal);
+        res.sendStatus(204);
       }
     }
   } catch (err) {
@@ -143,10 +126,8 @@ app.put('/api/notes/:id', async (req, res) => {
     if (evaluateId(res, journal, id)) {
       if (evaluateReqBody(req, res, 'put')) {
         journal.notes[id].content = req.body.content;
-        const response = await uploadNotes(res, journal);
-        if (response) {
-          res.status(200).send(journal.notes[id]);
-        }
+        await uploadNotes(res, journal);
+        res.status(200).send(journal.notes[id]);
       }
     }
   } catch (err) {
