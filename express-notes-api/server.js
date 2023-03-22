@@ -1,24 +1,45 @@
 import express from 'express';
-// import { writeFile } from 'node:fs/promises';
+import { writeFile } from 'node:fs/promises';
 import { readFileSync } from 'node:fs';
 
 // --- Reusable functions ---
 function handleError(res, err) {
   console.error('/api/notes error', err);
-  res.status(500).send(err.message);
+  res.status(500).send({ error: 'An unexpected error occurred.' });
 }
 
-/** Evaluates the user-inputted ID.
- *  If the ID is not a valid number, status 400 will be sent to indicate an input error.
- *  If the ID is not present in the data, status 404 will be sent to indicate data was not found. */
 function evaluateId(res, journal, id) {
   const validIds = Object.keys(journal.notes);
   const errorMsg = `${id} is not a valid ID. Please provide a valid ID: ${validIds.join(', ')}`;
   if (isNaN(id) || Number(id) < 0) {
-    return res.status(400).send(errorMsg);
-  }
-  if (!validIds.includes(id)) {
+    res.status(400).send(errorMsg);
+  } else if (!validIds.includes(id)) {
     res.status(404).send(errorMsg);
+  } else {
+    return true;
+  }
+}
+
+function evaluateReqBody(req, res, action) {
+  let userInputs = Object.keys(req.body);
+  userInputs = userInputs.filter((key) => key !== 'id');
+  switch (action) {
+    case 'delete':
+      if (userInputs.length > 0) {
+        res.status(400).send(`Input: ${JSON.stringify(req.body)}
+  Be advised the above inputs were not be processed. Please try again.`);
+      } else {
+        return true;
+      }
+      break;
+    case 'put':
+    case 'post':
+      if (!userInputs.includes('content') || userInputs.length > 1) {
+        res.status(400).send(`Input: ${JSON.stringify(req.body)}
+  Be advised only notes assigned to "content" will be processed. Please try again.`);
+      } else {
+        return true;
+      }
   }
 }
 
@@ -29,44 +50,42 @@ async function loadNotes(res, id) {
     const data = await readFileSync('data.json', 'utf8');
     const dataJson = JSON.parse(data);
     if (id) {
-      evaluateId(res, dataJson, id);
-      return dataJson.notes[id];
+      if (evaluateId(res, dataJson, id)) {
+        return dataJson.notes[id];
+      }
+    } else {
+      return dataJson;
     }
-    return dataJson.notes;
   } catch (err) {
     handleError(res, err);
   }
 }
 
-// async function uploadNotes(input) {
-//   try {
-//     const newNotes = JSON.stringify(input);
-//     await writeFile('data.json', newNotes);
-//   } catch (err) {
-//     handleError(err);
-//   }
-// }
+async function uploadNotes(res, input) {
+  try {
+    const newNotes = JSON.stringify(input);
+    await writeFile('data.json', newNotes);
+    return true;
+  } catch (err) {
+    handleError(res, err);
+  }
+}
 
 // --- HTTPie handlers and middleware functions ---
 const app = express();
 
 app.use(express.json());
 
-app.get('/api/notes', async (req, res) => {
+app.get('/api/notes/:id?', async (req, res) => {
   try {
-    const journal = await loadNotes(res);
-    res.status(200).send(journal);
-  } catch (err) {
-    handleError(res, err);
-  }
-});
-
-app.get('/api/notes/:id', async (req, res) => {
-  try {
-    if (req.params.id) {
-      const noteId = req.params.id;
-      const notes = await loadNotes(res, noteId);
-      res.status(200).send(notes);
+    const { id } = req.params;
+    let journal = await loadNotes(res);
+    if (id) {
+      journal = await loadNotes(res, id);
+    }
+    if (journal) {
+      const response = id ? journal : journal.notes;
+      res.status(200).send(response);
     }
   } catch (err) {
     handleError(res, err);
@@ -75,10 +94,52 @@ app.get('/api/notes/:id', async (req, res) => {
 
 app.post('/api/notes', async (req, res) => {
   try {
-    if (!Object.keys(req.body).includes('content')) {
-      return res.status(400).send('Only notes assigned to "content" will be processed.');
+    if (evaluateReqBody(req, res, 'post')) {
+      const journal = await loadNotes(res);
+      const { nextId } = journal;
+      journal.notes[nextId] = { id: nextId, content: req.body.content };
+      journal.nextId++;
+      const response = await uploadNotes(res, journal);
+      if (response) {
+        res.status(201).send(journal.notes[nextId]);
+      }
     }
-    res.send(req.body);
+  } catch (err) {
+    handleError(res, err);
+  }
+});
+
+app.delete('/api/notes/:id', async (req, res) => {
+  try {
+    if (evaluateReqBody(req, res, 'delete')) {
+      const { id } = req.params;
+      const journal = await loadNotes(res);
+      if (evaluateId(res, journal, id)) {
+        delete journal.notes[id];
+        const response = await uploadNotes(res, journal);
+        if (response) {
+          res.sendStatus(204);
+        }
+      }
+    }
+  } catch (err) {
+    handleError(res, err);
+  }
+});
+
+app.put('/api/notes/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const journal = await loadNotes(res);
+    if (evaluateId(res, journal, id)) {
+      if (evaluateReqBody(req, res, 'put')) {
+        journal.notes[id].content = req.body.content;
+        const response = await uploadNotes(res, journal);
+        if (response) {
+          res.status(200).send(journal.notes[id]);
+        }
+      }
+    }
   } catch (err) {
     handleError(res, err);
   }
