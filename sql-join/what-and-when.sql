@@ -1,12 +1,7 @@
 SELECT "f"."title",
   "f"."releaseYear",
-  "g"."genre"
+  "genres"."name"
 FROM "films" AS "f"
-JOIN (SELECT "genreId",
-  "genres"."name" AS "genre",
-  "filmId"
-  FROM "genres"
-  JOIN "filmGenre"
-  USING ("genreId")) AS "g"
-USING ("filmId")
+JOIN "filmGenre" USING ("filmId")
+JOIN "genres" USING ("genreId")
 WHERE "f"."title" = 'Boogie Amelie';
