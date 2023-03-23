@@ -1,11 +1,10 @@
 SELECT "firstName",
   "lastName"
 FROM "customers"
-WHERE "customerId" IN (
-  SELECT "customerId"
-FROM "rentals"
-JOIN (SELECT "inventoryId"
-  FROM "inventory"
-  JOIN "films" USING ("filmId")
-  WHERE "title" = 'Magic Mallrats') AS "m"
-  USING ("inventoryId"));
+JOIN "rentals"
+USING ("customerId")
+JOIN "inventory"
+USING ("inventoryId")
+JOIN "films"
+USING ("filmId")
+WHERE "title" = 'Magic Mallrats';
