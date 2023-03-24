@@ -21,7 +21,7 @@ function evalParamId(res, id) {
   if (isNaN(id) || Number(id) < 0 || !Number.isInteger(id)) {
     res.status(400).json({ error: "'gradeId' must be a positive integer." });
   }
-  return true;
+  return false;
 }
 
 function evalReqBody(req, res) {
@@ -69,10 +69,7 @@ app.get('/api/grades', async (req, res) => {
     FROM "grades";
   `;
     const result = await db.query(sql);
-    if (!result) {
-      res.status(404).json({ error: 'Grades table is currently empty.' });
-    }
-    return res.json(result);
+    return res.json(result.rows);
   } catch (err) {
     handleError(res, err);
   }
@@ -116,9 +113,6 @@ app.post('/api/grades', async (req, res) => {
     const params = [course, name, score];
     const result = await db.query(sql, params);
     const grade = result.rows[0];
-    if (!grade) {
-      return;
-    }
     return res.json(grade);
   } catch (err) {
     handleError(res, err);
