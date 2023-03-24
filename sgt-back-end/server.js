@@ -20,8 +20,9 @@ function handleError(res, err) {
 function evalParamId(res, id) {
   if (isNaN(id) || Number(id) < 0 || !Number.isInteger(id)) {
     res.status(400).json({ error: "'gradeId' must be a positive integer." });
+    return false;
   }
-  return false;
+  return true;
 }
 
 function evalReqBody(req, res) {
