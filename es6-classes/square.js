@@ -8,8 +8,7 @@ class Square extends Shape {
   }
 
   print(width) {
-    return `Area: ${this.width}
-Circumference: ${this.circumference}
+    return `${super.print()}
 Width: ${this.width}`;
   }
 }

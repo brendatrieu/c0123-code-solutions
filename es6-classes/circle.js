@@ -8,8 +8,7 @@ class Circle extends Shape {
   }
 
   print() {
-    return `Area: ${this.area}
-Circumference: ${this.circumference}
+    return `${super.print()}
 Radius: ${this.radius}`;
   }
 }
