@@ -62,22 +62,6 @@ function evalReqBody(req, res) {
   return userInputs;
 }
 
-async function loadGradeId(res, id) {
-  const sql = `
-    SELECT *
-    FROM "grades"
-    WHERE "gradeId" = $1;
-  `;
-  const params = [id];
-  const result = await db.query(sql, params);
-  const grade = result.rows[0];
-  if (grade) {
-    return grade;
-  }
-  res.status(404).json({ error: `Cannot find grade with gradeId: ${id}` });
-  return false;
-}
-
 app.get('/api/grades', async (req, res) => {
   try {
     const sql = `
@@ -100,9 +84,16 @@ app.get('/api/grades/:gradeId', async (req, res) => {
     if (!evalParamId(res, gradeId)) {
       return;
     }
-    const grade = await loadGradeId(res, gradeId);
+    const sql = `
+    SELECT *
+    FROM "grades"
+    WHERE "gradeId" = $1;
+  `;
+    const params = [gradeId];
+    const result = await db.query(sql, params);
+    const grade = result.rows[0];
     if (!grade) {
-      return;
+      return res.status(404).json({ error: `Cannot find grade with gradeId: ${gradeId}` });
     }
     return res.json(grade);
   } catch (err) {
