@@ -20,9 +20,8 @@ function handleError(res, err) {
 function evalParamId(res, id) {
   if (isNaN(id) || Number(id) < 0 || !Number.isInteger(id)) {
     res.status(400).json({ error: "'gradeId' must be a positive integer." });
-  } else {
-    return true;
   }
+  return true;
 }
 
 function evalReqBody(req, res) {
@@ -59,22 +58,8 @@ function evalReqBody(req, res) {
   if (isNaN(score) || Number(score) < 0) {
     res.status(400).json({ error: `${score} is not a valid 'score'. Scores must be positive numbers.` });
     return false;
-  } else {
-    return userInputs;
   }
-}
-
-async function loadGrades(res) {
-  const sql = `
-    SELECT *
-    FROM "grades";
-  `;
-  const result = await db.query(sql);
-  if (result) {
-    return result.rows;
-  } else {
-    return false;
-  }
+  return userInputs;
 }
 
 async function loadGradeId(res, id) {
@@ -88,20 +73,22 @@ async function loadGradeId(res, id) {
   const grade = result.rows[0];
   if (grade) {
     return grade;
-  } else {
-    res.status(404).json({ error: `Cannot find grade with gradeId: ${id}` });
-    return false;
   }
+  res.status(404).json({ error: `Cannot find grade with gradeId: ${id}` });
+  return false;
 }
 
 app.get('/api/grades', async (req, res) => {
   try {
-    const result = await loadGrades();
-    if (result) {
-      res.json(result);
-    } else {
+    const sql = `
+    SELECT *
+    FROM "grades";
+  `;
+    const result = await db.query(sql);
+    if (!result) {
       res.status(404).json({ error: 'Grades table is currently empty.' });
     }
+    return res.json(result);
   } catch (err) {
     handleError(res, err);
   }
@@ -114,9 +101,10 @@ app.get('/api/grades/:gradeId', async (req, res) => {
       return;
     }
     const grade = await loadGradeId(res, gradeId);
-    if (grade) {
-      res.json(grade);
+    if (!grade) {
+      return;
     }
+    return res.json(grade);
   } catch (err) {
     handleError(res, err);
   }
@@ -137,9 +125,10 @@ app.post('/api/grades', async (req, res) => {
     const params = [course, name, score];
     const result = await db.query(sql, params);
     const grade = result.rows[0];
-    if (grade) {
-      res.json(grade);
+    if (!grade) {
+      return;
     }
+    return res.json(grade);
   } catch (err) {
     handleError(res, err);
   }
@@ -151,17 +140,18 @@ app.delete('/api/grades/:gradeId', async (req, res) => {
     if (!evalParamId(res, gradeId)) {
       return;
     }
-    const grade = await loadGradeId(res, gradeId);
-    if (!grade) {
-      return;
-    }
     const sql = `
       DELETE FROM "grades"
       WHERE "gradeId" = $1
+      RETURNING *;
     `;
     const params = [gradeId];
-    await db.query(sql, params);
-    res.sendStatus(204);
+    const result = await db.query(sql, params);
+    const newGrade = result.rows[0];
+    if (!newGrade) {
+      return res.status(404).json({ error: `Cannot find grade with gradeId: ${gradeId}` });
+    }
+    return res.sendStatus(204);
   } catch (err) {
     handleError(res, err);
   }
@@ -189,11 +179,10 @@ app.put('/api/grades/:gradeId', async (req, res) => {
     const params = [gradeId, course, name, score];
     const result = await db.query(sql, params);
     const newGrade = result.rows[0];
-    if (newGrade) {
-      res.json(newGrade);
-    } else {
-      res.status(404).json({ error: `Cannot find grade with gradeId: ${gradeId}` });
+    if (!newGrade) {
+      return res.status(404).json({ error: `Cannot find grade with gradeId: ${gradeId}` });
     }
+    return res.json(newGrade);
   } catch (err) {
     handleError(res, err);
   }
