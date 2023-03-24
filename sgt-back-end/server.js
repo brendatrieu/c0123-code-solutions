@@ -19,7 +19,7 @@ function handleError(res, err) {
 
 function evalParamId(res, id) {
   if (isNaN(id) || Number(id) < 0 || !Number.isInteger(id)) {
-    res.status(400).json({ error: `${id} is not a valid ID. "gradeId" must be a positive integer.` });
+    res.status(400).json({ error: "'gradeId' must be a positive integer." });
   } else {
     return true;
   }
@@ -77,21 +77,22 @@ async function loadGrades(res) {
   }
 }
 
-// async function loadGradeId(res, id) {
-//   const sql = `
-//     SELECT *
-//     FROM "grades"
-//     WHERE "gradeId" = $1;
-//   `;
-//   const params = [id];
-//   const result = await db.query(sql, params);
-//   const grade = result.rows[0];
-//   if (grade) {
-//     return grade;
-//   } else {
-//     return false;
-//   }
-// }
+async function loadGradeId(res, id) {
+  const sql = `
+    SELECT *
+    FROM "grades"
+    WHERE "gradeId" = $1;
+  `;
+  const params = [id];
+  const result = await db.query(sql, params);
+  const grade = result.rows[0];
+  if (grade) {
+    return grade;
+  } else {
+    res.status(404).json({ error: `Cannot find grade with gradeId: ${id}` });
+    return false;
+  }
+}
 
 app.get('/api/grades', async (req, res) => {
   try {
@@ -112,18 +113,9 @@ app.get('/api/grades/:gradeId', async (req, res) => {
     if (!evalParamId(res, gradeId)) {
       return;
     }
-    const sql = `
-      SELECT *
-      FROM "grades"
-      WHERE "gradeId" = $1
-    `;
-    const params = [gradeId];
-    const result = await db.query(sql, params);
-    const grade = result.rows[0];
+    const grade = await loadGradeId(res, gradeId);
     if (grade) {
       res.json(grade);
-    } else {
-      res.status(404).json({ error: `Cannot find grade with 'gradeId' ${gradeId}` });
     }
   } catch (err) {
     handleError(res, err);
@@ -153,6 +145,58 @@ app.post('/api/grades', async (req, res) => {
   }
 });
 
-// app.delete('/api/grades', async);
+app.delete('/api/grades/:gradeId', async (req, res) => {
+  try {
+    const gradeId = Number(req.params.gradeId);
+    if (!evalParamId(res, gradeId)) {
+      return;
+    }
+    const grade = await loadGradeId(res, gradeId);
+    if (!grade) {
+      return;
+    }
+    const sql = `
+      DELETE FROM "grades"
+      WHERE "gradeId" = $1
+    `;
+    const params = [gradeId];
+    await db.query(sql, params);
+    res.sendStatus(204);
+  } catch (err) {
+    handleError(res, err);
+  }
+});
+
+app.put('/api/grades/:gradeId', async (req, res) => {
+  try {
+    const gradeId = Number(req.params.gradeId);
+    if (!evalParamId(res, gradeId)) {
+      return;
+    }
+    const userInputs = evalReqBody(req, res);
+    if (!userInputs) {
+      return;
+    }
+    const sql = `
+      UPDATE "grades"
+        SET "course" = $2,
+          "name" = $3,
+          "score" = $4
+      WHERE "gradeId" = $1
+      RETURNING *;
+    `;
+    const { course, name, score } = userInputs;
+    const params = [gradeId, course, name, score];
+    const result = await db.query(sql, params);
+    const newGrade = result.rows[0];
+    if (newGrade) {
+      res.json(newGrade);
+    } else {
+      res.status(404).json({ error: `Cannot find grade with gradeId: ${gradeId}` });
+    }
+  } catch (err) {
+    handleError(res, err);
+  }
+});
 
 app.listen(8080, (req, res) => console.log('Port 8080 is now live!'));
