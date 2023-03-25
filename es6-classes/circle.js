@@ -2,8 +2,8 @@
 /* exported Circle */
 
 class Circle extends Shape {
-  constructor(area, circumference, radius) {
-    super(area, circumference);
+  constructor(radius) {
+    super((Math.PI * radius ** 2), (Math.PI * radius * 2));
     this.radius = radius;
   }
 
@@ -13,4 +13,4 @@ Radius: ${this.radius}`;
   }
 }
 
-console.log(new Circle(12.6, 12.6, 2).print());
+console.log(new Circle(2).print());

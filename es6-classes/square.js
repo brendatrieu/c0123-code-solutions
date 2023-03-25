@@ -2,14 +2,14 @@
 /* exported Square */
 
 class Square extends Shape {
-  constructor(area, circumference, width) {
-    super(area, circumference);
+  constructor(width) {
+    super((width ** 2), 'N/A');
     this.width = width;
   }
 
-  print(width) {
+  print() {
     return `${super.print()}
 Width: ${this.width}`;
   }
 }
-console.log(new Square(4, 'N/A', 2).print());
+console.log(new Square(2).print());
