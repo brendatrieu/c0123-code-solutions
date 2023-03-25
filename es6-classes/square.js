@@ -3,7 +3,7 @@
 
 class Square extends Shape {
   constructor(width) {
-    super((width ** 2), 'N/A');
+    super((width ** 2), (width * 4));
     this.width = width;
   }
 
