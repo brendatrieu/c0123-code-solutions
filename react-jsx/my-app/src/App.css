@@ -26,15 +26,16 @@
 }
 
 .App-link {
-  color: #61dafb;
+  text-decoration: none;
 }
 
 .App-button {
   color: #282c34;
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   border-radius: 0.3rem;
-  outline: #282c34 solid 3px;
+  border: gray solid 2px;
   padding: 0.3rem 0.6rem;
+  box-shadow: none;
 }
 
 @keyframes App-logo-spin {

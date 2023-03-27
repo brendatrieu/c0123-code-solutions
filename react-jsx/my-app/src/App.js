@@ -11,9 +11,6 @@ function App() {
         </p>
         <button
           className="App-button"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
           type="button"
         >
           Click Me!
