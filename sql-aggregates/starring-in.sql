@@ -1,5 +1,5 @@
 SELECT "genres"."name",
-  COUNT("films".*) AS "Total Films"
+  COUNT(*) AS "Total Films"
 FROM "genres"
 JOIN "filmGenre" USING ("genreId")
 JOIN "films" USING ("filmId")
