@@ -1,9 +1,6 @@
 export default function CustomButton({text, color, onCustomClick}) {
-  function handleClick() {
-    onCustomClick(text);
-  }
   return (
-    <button style={{backgroundColor: color}} onClick={handleClick}>
+    <button style={{backgroundColor: color}} onClick={() => onCustomClick(text)}>
       {text}
     </button>
   )
