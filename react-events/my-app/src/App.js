@@ -7,7 +7,7 @@ function App() {
   }
   return (
     <>
-    <CustomButton color="blue" text="Hello" onCustomClick={handleCustomClick} />
+      <CustomButton color="blue" text="Hello" onCustomClick={handleCustomClick} />
       <CustomButton color="green" text="World" onCustomClick={handleCustomClick} />
       <CustomButton color="purple" text="Farewell" onCustomClick={handleCustomClick} />
     </>
