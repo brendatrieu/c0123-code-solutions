@@ -1,0 +1,31 @@
+#root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  font-size: 0.75rem;
+}
+
+.switch-div {
+  border-radius: 10px;
+  border: 1.5px solid black;
+  display: flex;
+  width: 30px;
+  height: 15px;
+  margin: 5px;
+}
+
+.switch-button {
+  border-radius: 10px;
+  border: 1.5px solid black;
+  width: 50%;
+  height: 100%;
+}
+
+.switch-label {
+  width: 15px;
+}
