@@ -9,7 +9,7 @@ export default function RegistrationFormUncontrolled() {
     console.log({ username, password })
   }
   return (
-    <form id="controlled-form" onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <label>
         Username: <input name="username" type="text" value={username} onChange={(e) => setUsername(e.target.value)}/>
       </label>

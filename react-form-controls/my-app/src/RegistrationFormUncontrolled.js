@@ -5,7 +5,7 @@ export default function RegistrationFormUncontrolled () {
     console.log(Object.fromEntries(formData.entries()))
   }
   return (
-    <form id="uncontrolled-form" onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <label>
         Username: <input name="username" type="text" />
       </label>
