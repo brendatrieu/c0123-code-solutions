@@ -13,10 +13,6 @@ export default function ValidatedInput() {
     setIsValid(check);
     setPw(typedPw);
     const message = msgGenerator(typedPw);
-    if (check) {
-      setErr(message);
-      return;
-    }
     setErr(message);
   }
 
