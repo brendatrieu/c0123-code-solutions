@@ -25,7 +25,7 @@ export default function Container({ items }) {
         />
         <Button
           text="Next"
-          onClick={() => setCurrent(((current + 1) + items.length) % items.length)}
+          onClick={() => setCurrent((current + 1) % items.length)}
           current={current}
         />
       </div>
