@@ -38,8 +38,6 @@ export default function ValidatedInput() {
       const noUpper = 'Password must include at least one uppercase letter.';
       !upper.test(typedPw) ? message.push(noUpper) : message.filter((msg) => msg !== noUpper);
       setErr(message.map((errorMessage) => <p key={errorMessage} style={msgStyle}>{errorMessage}</p>));
-    } else {
-      setErr([]);
     }
   }
   const invalid = "fa-sharp fa-solid fa-xmark";
