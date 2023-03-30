@@ -12,34 +12,11 @@ export default function ValidatedInput() {
 
     setIsValid(check);
     setPw(typedPw);
-
+    const message = msgGenerator(typedPw);
     if (check) {
-      setErr([]);
-      return;
-    }
-    const message = [];
-    // --- Password Required ---
-    const reqPw = 'Password is a required field.';
-    if (typedPw.length === 0) {
-      message.push(reqPw);
       setErr(message);
       return;
     }
-    // --- Min 8 Characters ---
-    const noEightChar = 'Password must be at least 8 characters long.';
-    (typedPw.length < 8) ? message.push(noEightChar) : message.filter((msg) => msg !== noEightChar);
-    // --- Special Characters ---
-    const specChar = /[!@#$%^&*()]/;
-    const noSpecChar = 'Password must include at least one special character (!, @, #, $, %, ^, &, *, (, or ) )';
-    !specChar.test(typedPw) ? message.push(noSpecChar) : message.filter((msg) => msg !== noSpecChar);
-    // --- Digits ---
-    const digit = /\d/;
-    const noDigit = 'Password must include at least one digit.';
-    !digit.test(typedPw) ? message.push(noDigit) : message.filter((msg) => msg !== noDigit);
-    // --- Uppercase ---
-    const upper = /[A-Z]/;
-    const noUpper = 'Password must include at least one uppercase letter.';
-    !upper.test(typedPw) ? message.push(noUpper) : message.filter((msg) => msg !== noUpper);
     setErr(message);
   }
 
@@ -59,4 +36,30 @@ export default function ValidatedInput() {
       {err.map((errorMessage) => <p key={errorMessage} style={msgStyle}>{errorMessage}</p>)}
     </>
   )
+}
+
+function msgGenerator (typedPw) {
+  const message = [];
+  // --- Password Required ---
+  const reqPw = 'Password is a required field.';
+  if (typedPw.length === 0) {
+    message.push(reqPw);
+    return message;
+  }
+  // --- Min 8 Characters ---
+  const noEightChar = 'Password must be at least 8 characters long.';
+  (typedPw.length < 8) ? message.push(noEightChar) : message.filter((msg) => msg !== noEightChar);
+  // --- Special Characters ---
+  const specChar = /[!@#$%^&*()]/;
+  const noSpecChar = 'Password must include at least one special character (!, @, #, $, %, ^, &, *, (, or ) )';
+  !specChar.test(typedPw) ? message.push(noSpecChar) : message.filter((msg) => msg !== noSpecChar);
+  // --- Digits ---
+  const digit = /\d/;
+  const noDigit = 'Password must include at least one digit.';
+  !digit.test(typedPw) ? message.push(noDigit) : message.filter((msg) => msg !== noDigit);
+  // --- Uppercase ---
+  const upper = /[A-Z]/;
+  const noUpper = 'Password must include at least one uppercase letter.';
+  !upper.test(typedPw) ? message.push(noUpper) : message.filter((msg) => msg !== noUpper);
+  return message;
 }
