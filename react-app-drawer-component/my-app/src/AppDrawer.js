@@ -11,9 +11,6 @@ import './AppDrawer.css';
 
 export default function AppDrawer({heading, items, onTitleChange}) {
   const [isOpen, setIsOpen] = useState(false);
-  const overlay = (!isOpen) ?
-    { backgroundColor: 'rgba(255, 255, 255, 0)', pointerEvents: 'none' } :
-    { backgroundColor: 'rgba(255, 255, 255, 0.25)', pointerEvents: 'all' };
   function toggleMenu() {
     setIsOpen(!isOpen);
   }
@@ -26,13 +23,10 @@ export default function AppDrawer({heading, items, onTitleChange}) {
           items={items}
           isOpen={isOpen}
           onMenuToggle={toggleMenu}
-          onTitleChange={onTitleChange}
-        />
+          onTitleChange={onTitleChange} />
       </div>
-      <div style={overlay}
-          className="overlay"
-          onClick={() => isOpen && toggleMenu()}>
-      </div>
+      {isOpen &&
+        <div className="overlay" onClick={toggleMenu}></div>}
     </>
   )
 }
