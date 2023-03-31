@@ -28,7 +28,7 @@ function App() {
       </div>
       <header className="App-header">
         {title}
-        <a href="google.com">Google</a>
+        <a href="https://www.google.com" target="_blank" rel="noreferrer">Google</a>
       </header>
 
     </div>
