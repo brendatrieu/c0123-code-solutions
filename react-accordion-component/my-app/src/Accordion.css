@@ -1,7 +1,7 @@
 .all-panels {
   display: flex;
   flex-direction: column;
-  width: 200px;
+  width: 500px;
 }
 
 .panel {
@@ -10,17 +10,17 @@
 
 .panel-header {
   cursor: pointer;
-  font-size: 0.6rem;
+  font-size: 1.5rem;
   background-color: darkslategrey;
   color: white;
-  border: 0.5px #ccba8f solid;
-  border-radius: 2px;
+  border: 2px #ccba8f solid;
+  border-radius: 4px;
 }
 
 .panel-content {
-  font-size: 0.4rem;
-  border: 0.5px solid #ccba8f;
+  font-size: 1rem;
+  border: 2px solid #ccba8f;
   border-top: none;
-  padding: 2px 7px;
-  border-radius: 0 0 2px 2px;
+  padding: 5px 15px;
+  border-radius: 0 0 4px 4px;
 }

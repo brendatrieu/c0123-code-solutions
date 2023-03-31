@@ -1,35 +1,36 @@
 import './Accordion.css';
-
+import { useState } from 'react';
 /**
  *
- * @param {topics} An array of objects. Each object will contain a header and corresponding content for the Accordion panel.
+ * @param {topics} An array of objects. Each object will contain an id, a header and corresponding content for the Accordion panel.
  */
 
-export default function Accordion ({topics, view, onSwapView}) {
+export default function Accordion ({topics}) {
+  const [openPanel, setOpenPanel] = useState(null);
+
   return (
     <div className="all-panels">
       {topics.map((topic)=> (
         <Topic className="panel"
-          view={view}
-          key={topic.header}
-          header={topic.header}
-          content={topic.content}
-          onSwapView={onSwapView} />))}
+          isOpen={openPanel===topic.id}
+          key={topic.id}
+          topic={topic}
+          onToggle={() => openPanel === topic.id ? setOpenPanel(null) : setOpenPanel(topic.id)} />))}
     </div>
   )
 }
 
-function Topic({view, header, content, onSwapView}){
+function Topic({isOpen, topic, onToggle}){
   return (
     <>
       <button className="panel-header"
         type="button"
-        onClick={() => view===header ? onSwapView('none') : onSwapView(header)} >
-          {header}
+        onClick={onToggle} >
+          {topic.header}
       </button>
-      {view === header &&
+      {isOpen &&
         <section className="panel-content">
-          <p>{content}</p>
+          <p>{topic.content}</p>
         </section> }
     </>
   )
