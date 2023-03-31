@@ -36,7 +36,7 @@ export default function Container({ items }) {
 /**
  * A button that toggles its color between white and lightblue.
  */
-function Button({ text, onClick, current, backgroundColor="white" }) {
+function Button({ text, onClick, current, backgroundColor='white' }) {
   return <button onClick={onClick} style={{backgroundColor}}>{text}</button>;
 }
 
@@ -52,7 +52,7 @@ function Buttons({ count, current, onClick }) {
         text={i}
         onClick={() => onClick(i)}
         current={current}
-        backgroundColor={current === i ? "lightblue" : "white"}
+        backgroundColor={current === i ? 'lightblue' : 'white'}
       />)
   }
   return <div>{buttons}</div>;
