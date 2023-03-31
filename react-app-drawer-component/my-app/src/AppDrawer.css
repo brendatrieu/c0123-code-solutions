@@ -1,0 +1,55 @@
+.hamburger-icon {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  scale: 0.75;
+  color: white;
+  z-index: 2;
+}
+
+.hamburger-icon:hover {
+  cursor: pointer;
+}
+
+.menu {
+  transform: translateX(0);
+  transition: transform 0.2s ease-in-out;
+  z-index: 2;
+  position: absolute;
+  height: 100vh;
+  width: 125px;
+  background-color: white;
+  color: #282c34;
+  text-align: left;
+  padding: 5px;
+}
+
+h2 {
+  padding: 5px;
+  margin: 0;
+}
+
+.menu-list {
+  padding: 0;
+  margin: 0;
+  font-size: calc(10px + 1vmin);
+}
+
+.menu-item {
+  list-style: none;
+  text-align: left;
+  margin: 5px;
+}
+
+.hidden {
+  transform: translateX(-283px);
+  transition: transform 0.2s ease-in-out;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-color: rgb(255 255 255 / 25%);
+  pointer-events: all;
+}
