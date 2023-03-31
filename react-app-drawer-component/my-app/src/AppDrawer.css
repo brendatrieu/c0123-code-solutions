@@ -1,0 +1,23 @@
+.hamburger-icon {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  scale: 0.75;
+}
+
+.hamburger-icon:hover {
+  cursor: pointer;
+}
+
+.menu {
+  transform: translateX(0);
+  z-index: 1;
+  position: absolute;
+  height: 100vh;
+  width: 150px;
+  background-color: white;
+}
+
+.hidden {
+  transform: translateX(-283px);
+}
