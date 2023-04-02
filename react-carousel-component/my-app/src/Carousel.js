@@ -31,11 +31,12 @@ export default function Carousel ({images}) {
           onClick={() => setCurrent(((current + 1) % images.length))} />
       </div>
       <div className="Carousel-flex-column">
-        <caption>{images[current].alt}</caption>
+        <figcaption>{images[current].alt}</figcaption>
         <div>
           {images.map((image, index) => {
             return (
-              <ProgressDot isCurrent={current === index}
+              <ProgressDot key={index}
+                isCurrent={current === index}
                 onClick={() => setCurrent(index)}
               />)
           })}
