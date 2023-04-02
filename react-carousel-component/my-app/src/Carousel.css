@@ -1,0 +1,38 @@
+* {
+  box-sizing: border-box;
+}
+
+.Carousel-flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.Carousel-top-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  margin: 5vh auto;
+}
+
+.chevrons {
+  scale: 3;
+  margin: 2vw;
+  cursor: pointer;
+}
+
+.Carousel-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 70%;
+}
+
+.images {
+  width: 100%;
+  object-fit: cover;
+}
+
+.dot {
+  margin: 1.5rem 0.75rem;
+}
