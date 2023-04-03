@@ -4,8 +4,7 @@ import './Carousel.css';
 
 /**
  * Carousel cycles through images automatically and allows users to browse manually.
- * @param {images} images represents an array of objects. Each object will contain an image URL and alt text.
- * @returns
+ * @param {Array} images represents an array of objects. Each object will contain an image URL and alt text.
  */
 export default function Carousel ({images}) {
   const [current, setCurrent] = useState(0);
@@ -46,6 +45,11 @@ export default function Carousel ({images}) {
   )
 }
 
+/**
+ * ProgressDot generates a dot that will follow the carousel cycle and fill the dot that corresponds to the current image index.
+ * @param {Boolean} isCurrent is a boolean that represents whether the current dot corresponds to the current image index.
+ * @param {Function} onClick is a function that sets the current image to the index of the clicked dot.
+ */
 function ProgressDot({ isCurrent, onClick }) {
   return (
     <>
