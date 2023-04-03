@@ -3,35 +3,28 @@ import { useEffect, useState } from 'react';
 import readItems from './read';
 
 export default function List() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState();
   const [items, setItems] = useState([]);
   const [error, setError] = useState();
-
-  // Your code here:
-  //  - When the component mounts:
-  //    - Read the items using `readItems` and update state so the list displays
-  //    - Handle errors from `readItems`
-  function cleanUp () {
-    setIsLoading(true);
-    setItems([]);
-    setError(null);
-  }
 
   useEffect(() => {
     async function retrieveResponse() {
       try{
         const response = await readItems();
         setItems(response);
-        setIsLoading(false);
       } catch (err){
         setError(err);
+      } finally {
+        setIsLoading(false);
       }
     }
-    retrieveResponse();
-    return () => cleanUp();
-  }, []);
+    if (isLoading === undefined) {
+      setIsLoading(true);
+      retrieveResponse();
+    }
+  }, [isLoading]);
 
-  if (isLoading) {
+  if (isLoading || isLoading === undefined) {
     return <div>Loading...</div>;
   }
 
