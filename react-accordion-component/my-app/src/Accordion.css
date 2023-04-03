@@ -1,0 +1,26 @@
+.all-panels {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+}
+
+.panel {
+  width: 100%;
+}
+
+.panel-header {
+  cursor: pointer;
+  font-size: 1.5rem;
+  background-color: darkslategrey;
+  color: white;
+  border: 2px #ccba8f solid;
+  border-radius: 4px;
+}
+
+.panel-content {
+  font-size: 1rem;
+  border: 2px solid #ccba8f;
+  border-top: none;
+  padding: 5px 15px;
+  border-radius: 0 0 4px 4px;
+}
