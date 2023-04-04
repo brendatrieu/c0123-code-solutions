@@ -91,7 +91,7 @@ export default function Todos() {
     const todoStatus = { isCompleted: !targetTodo.isCompleted };
 
     try{
-      const response = await fetch(url(`/api/todo/${todoId}`),
+      const response = await fetch(url(`/api/todos/${todoId}`),
       { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(todoStatus) });
       if (!response.ok) throw new Error(`Status ${response.status}`);
       const data = await response.json();
