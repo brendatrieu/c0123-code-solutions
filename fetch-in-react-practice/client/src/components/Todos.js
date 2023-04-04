@@ -58,7 +58,7 @@ export default function Todos() {
           method: "POST", headers: {"Content-Type": "application/json" }, body: JSON.stringify(newTodo)});
       if (!response.ok) throw new Error(`Status ${response.status}`);
       const data = await response.json();
-      setTodos(todos.concat(data));
+      setTodos([todos, ...data]);
     } catch(err) {
       handleError(err);
     }
@@ -101,7 +101,6 @@ export default function Todos() {
       handleError(err);
     }
   }
-
 
   if (isLoading) {
     return <div>Loading...</div>;
