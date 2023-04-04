@@ -11,15 +11,9 @@ export default function Todos() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState();
 
-  async function fetchData() {
-    const response = await fetch('/api/todos', { method: 'POST' });
-    if (!response.ok) throw new Error('Status', response.status);
-    const data = response.json();
-  }
-
   function handleError(err) {
     setError(err);
-    console.error('An error occurred during fetch.');
+    console.error('An error was encountered during fetch.', err);
   }
 
   useEffect(() => {
@@ -32,7 +26,7 @@ export default function Todos() {
     async function fetchTodos() {
       try{
         const response = await fetch(url('/api/todos'));
-        if (!response.ok) throw new Error('Status:', response.status);
+        if (!response.ok) throw new Error(`Status ${response.status}`);
         const data = await response.json();
         setTodos(data);
       } catch(err) {
@@ -42,9 +36,9 @@ export default function Todos() {
       }
     }
     fetchTodos();
-  }, [todos]);
+  }, []);
 
-  function addTodo(newTodo) {
+  async function addTodo(newTodo) {
     /* Use fetch to send a POST request to `/api/todos`.
      * Once the response JSON is received and parsed,
      *   - set the Todos to a new array with the added Todo concatenated
@@ -58,21 +52,19 @@ export default function Todos() {
      * TIP: Use Array.prototype.concat to create a new array containing the contents
      * of the old array, plus the object returned by the server.
      */
-    async function fetchTodo() {
-      try{
-        const response = await fetch(url('/api/todos'), {
-           method: "POST", headers: {"Content-Type": "application/json" }, body: JSON.stringify(newTodo)});
-        if (!response.ok) throw new Error('Status', response.status);
-        const data = await response.json();
-        setTodos(Array.prototype.concat(todos, data));
-      } catch(err) {
-        handleError(err);
-      }
+
+    try{
+      const response = await fetch(url('/api/todos'), {
+          method: "POST", headers: {"Content-Type": "application/json" }, body: JSON.stringify(newTodo)});
+      if (!response.ok) throw new Error(`Status ${response.status}`);
+      const data = await response.json();
+      setTodos(todos.concat(data));
+    } catch(err) {
+      handleError(err);
     }
-    fetchTodo();
   }
 
-  function toggleCompleted(todoId) {
+  async function toggleCompleted(todoId) {
     /* Find the index of the todo with the matching todoId in the state array.
      * Get its "isCompleted" status.
      * Make a new object containing ONE PROPERTY: the opposite "isCompleted" status.
@@ -98,20 +90,18 @@ export default function Todos() {
     const targetTodo = todos.filter((item) => item.todoId === todoId)[0];
     const todoStatus = { isCompleted: !targetTodo.isCompleted };
 
-    async function fetchPatch() {
-      try{
-        const response = await fetch(url(`/api/todos/${todoId}`),
-        { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(todoStatus) });
-        if (!response.ok) throw new Error('Status', response.status);
-        const data = await response.json();
-        const newTodos = todos.map((todo) => (todo.todoId === todoId) ? (todo = targetTodo) : todo);
-        setTodos(newTodos);
-      } catch(err) {
-        handleError(err);
-      }
+    try{
+      const response = await fetch(url(`/api/todo/${todoId}`),
+      { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(todoStatus) });
+      if (!response.ok) throw new Error(`Status ${response.status}`);
+      const data = await response.json();
+      const newTodos = todos.map((todo) => (todo.todoId === todoId) ? data : todo);
+      setTodos(newTodos);
+    } catch(err) {
+      handleError(err);
     }
-    fetchPatch();
   }
+
 
   if (isLoading) {
     return <div>Loading...</div>;
