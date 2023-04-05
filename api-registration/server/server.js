@@ -15,12 +15,25 @@ const db = new pg.Pool({
 const app = express();
 app.use(express.json());
 
+async function checkUsername(username, res) {
+  const sql = `
+      SELECT "username" FROM "users"
+      WHERE "username" = $1;`;
+  const params = [username];
+  const result = await db.query(sql, params);
+  const user = result.rows[0];
+  if (user) {
+    throw new ClientError(400, `Username '${username}' already exists. Please try another username.`);
+  }
+}
+
 app.post('/api/auth/sign-up', async (req, res, next) => {
   try {
     const { username, password } = req.body;
     if (!username || !password) {
       throw new ClientError(400, 'username and password are required fields');
     }
+    await checkUsername(username, res);
     /* TODO:
      * Hash the user's password with `argon2.hash()`
      * Insert the user's "username" and "hashedPassword" into the "users" table.
