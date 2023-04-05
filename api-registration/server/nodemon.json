@@ -1,0 +1,9 @@
+{
+  "watch": [
+    ".env",
+    "./*.js"
+  ],
+  "events": {
+    "start": "node -e 'console.clear()'"
+  }
+}
