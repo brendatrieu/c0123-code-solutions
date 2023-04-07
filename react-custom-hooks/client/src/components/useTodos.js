@@ -53,6 +53,7 @@ export function useTodos() {
      */
     try {
       const targetTodo = todos.find(todo => todo.todoId === todoId);
+      targetTodo.isCompleted = !targetTodo.isCompleted;
       const modifiedTodo = await updateTodo(targetTodo);
       const newTodos = todos.map((todo) => (todo.todoId === todoId) ? modifiedTodo : todo);
       setTodos(newTodos);
@@ -104,7 +105,7 @@ async function updateTodo(todo) {
   const req = {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ isCompleted: !todo.isCompleted }),
+    body: JSON.stringify({ isCompleted: todo.isCompleted }),
   };
   const res = await fetch(url(`/api/todos/${todo.todoId}`), req);
   if (!res.ok) throw new Error(`fetch Error ${res.status}`);
