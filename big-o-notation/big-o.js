@@ -9,7 +9,7 @@ function uniqueLinear(words) {
     i++                             // 2 * n = O(2n) ~= O(n)
   ) {
     const word = words[i];          // 2 * n = O(2n) ~= O(n)
-    if (!seen[word]) {              // 2 * n = O(2n) ~= O(n)
+    if (!seen[word]) {              // 3 * n = O(3n) ~= O(n)
       seen[word] = true;            // 2 * 1 = O(2) ~= O(1)
       unique[unique.length] = word; // 3 * n = O(3n) ~= O(n)
     }
