@@ -50,10 +50,9 @@ CREATE TABLE "public"."Exercises" (
 CREATE TABLE "public"."GroupUsers" (
 	"groupId" serial NOT NULL,
 	"userId" int NOT NULL,
-  "groupUserId" GENERATED ALWAYS AS ("groupId" || "userId") STORED,
 	"passQty" int NOT NULL,
 	"remainingPasses" int NOT NULL,
-	CONSTRAINT "GroupUsers_pk" PRIMARY KEY ("groupUserId")
+	CONSTRAINT "GroupUsers_pk" PRIMARY KEY ("groupId", "userId")
 ) WITH (
   OIDS=FALSE
 );
