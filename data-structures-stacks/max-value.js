@@ -1,7 +1,8 @@
 export default function maxValue(stack) {
-  const allValues = [];
+  let maxValue = -Infinity;
   while (stack.peek() !== undefined) {
-    allValues.push(stack.pop());
+    const top = stack.pop();
+    (maxValue < top) && (maxValue = top);
   }
-  return Math.max(...allValues);
+  return maxValue;
 }

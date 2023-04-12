@@ -1,7 +1,6 @@
 export default function countValues(stack) {
   let totalCount = 0;
-  while (stack.peek() !== undefined) {
-    stack.pop();
+  while (stack.pop() !== undefined) {
     totalCount++;
   }
   return totalCount;

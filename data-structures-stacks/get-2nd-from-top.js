@@ -5,8 +5,7 @@ export default function get2ndFromTop(stack) {
     stack.push(top);
     return undefined;
   }
-  const secondTop = stack.pop();
-  stack.push(secondTop);
+  const secondTop = stack.peek();
   stack.push(top);
   return secondTop;
 }
