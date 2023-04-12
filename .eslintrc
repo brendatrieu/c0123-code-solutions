@@ -27,6 +27,10 @@
       "error",
       "multi-line"
     ],
+    "comma-dangle": [
+      "error",
+      "always-multiline"
+    ],
     "no-console": [
       "off",
       {

@@ -1,4 +1,4 @@
-insert into "Users" (
+insert into "users" (
   "username",
   "firstName",
   "lastName",
@@ -18,7 +18,7 @@ insert into "Users" (
   'password'
 );
 
-insert into "ExerciseTypes" (
+insert into "exerciseTypes" (
   "type"
 ) values
   ('Bike'),
@@ -32,24 +32,24 @@ insert into "ExerciseTypes" (
   ('Walk'),
   ('Yoga');
 
-insert into "Exercises" (
-  "userId",
-  "type",
-  "date",
-  "totalMinutes"
-) values (
-  '1',
-  'Bike',
-  '1/10/2023',
-  60
-), (
-  '2',
-  'Run',
-  '1/11/2023',
-  40
-);
+-- insert into "exercises" (
+--   "userId",
+--   "type",
+--   "date",
+--   "totalMinutes"
+-- ) values (
+--   '1',
+--   'Bike',
+--   '1/10/2023',
+--   60
+-- ), (
+--   '2',
+--   'Run',
+--   '1/11/2023',
+--   40
+-- );
 
-insert into "Groups" (
+insert into "groups" (
   "groupName",
   "betAmount",
   "frequencyReq",
