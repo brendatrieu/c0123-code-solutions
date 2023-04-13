@@ -1,8 +1,7 @@
 export default function takeNextSmallest(numberQueue) {
 
-  let first = numberQueue.peek();
+  let first = numberQueue.dequeue();
   if (first === undefined) return undefined;
-  first = numberQueue.dequeue();
   const second = numberQueue.peek();
   if (second === undefined) return first;
   if (first <= numberQueue.peek()) return first;
