@@ -1,9 +1,8 @@
 export default function getLength(list) {
-  let data = list;
   let count = 0;
-  while (data !== null) {
+  while (list !== null) {
     count++;
-    data = data.next;
+    list = list.next;
   }
   return count;
 }
